@@ -11,21 +11,21 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "COMMENT_TABLE")
+@Table(name="COMMENTS")
 public class Comment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int commentId;
 	
-	private String comment;
+	private String commentBody;
 		
 	@ManyToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name="fk_UserId", nullable=false, updatable=false)
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "postId")
+	@JoinColumn(name="fk_PostId", nullable=false, updatable=false)
 	private Post post;
 
 	
@@ -33,15 +33,35 @@ public class Comment {
 		
 	}
 	
+	public Comment(String comment) {
+		this.commentBody = comment;
+	}
+	
 	public int getCommentId() {
 		return commentId;
 	}
 	
 	public String getComment() {
-		return comment;
+		return commentBody;
 	}
 
 	public void setComment(String comment) {
-		this.comment = comment;
+		this.commentBody = comment;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}	
 }

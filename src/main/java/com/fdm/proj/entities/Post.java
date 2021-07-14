@@ -1,6 +1,9 @@
 package com.fdm.proj.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,7 +19,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "POST_TABLE")
+@Table(name="POSTS")
 public class Post {
 	
 	@Id
@@ -27,21 +30,31 @@ public class Post {
 	private String body;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_userId", nullable=false)
+	@JoinColumn(name="fk_userId", nullable=false, updatable=false)
 	private User user;
 	
-	@OneToMany(mappedBy = "post")
-	private List<Comment> comments;
+	@OneToMany(mappedBy="post", cascade=CascadeType.ALL)
+	private List<Comment> comments = new ArrayList<>();
 	
-	@ManyToMany(mappedBy = "likedPosts")
-	private List<User> usersWhoLiked;
+	@ManyToMany(mappedBy="likedPosts", cascade={
+			CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.PERSIST,
+			CascadeType.REFRESH
+			})
+	private Set<User> usersWhoLiked = new HashSet<>();
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name="POST_TAG", 
-		joinColumns=@JoinColumn(name="fk_postId", nullable=false), 
+	@ManyToMany(cascade={
+			CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.PERSIST,
+			CascadeType.REFRESH
+			})
+	@JoinTable(name="POSTS_TAGS", 
+		joinColumns=@JoinColumn(name="fk_postId"), 
 		inverseJoinColumns=@JoinColumn(name="fk_tagId")
 		)
-	private List<Tag> tags;
+	private Set<Tag> tags = new HashSet<>();
 	
 	
 	public Post() {
@@ -61,6 +74,7 @@ public class Post {
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -68,6 +82,7 @@ public class Post {
 	public String getBody() {
 		return body;
 	}
+	
 	public void setBody(String body) {
 		this.body = body;
 	}	
@@ -79,5 +94,25 @@ public class Post {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Set<User> getUsersWhoLiked() {
+		return usersWhoLiked;
+	}
+
+	public void addUserToLiked(User user) {
+		this.usersWhoLiked.add(user);
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void addTag(Tag tag) {
+		tag.addPost(this);
+		this.tags.add(tag);
+	}
+	
+	
+	
 	
 }

@@ -15,12 +15,12 @@ public class Runner {
 	public static void main(String[] args) {
 		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("SocialMediaProject");
-		UserDAO userDAO = new UserDAO(emf);
-		PostDAO postDAO = new PostDAO(emf);
-		
-		User u1 = new User("johnAdams", "password1");
-		User u2 = new User("benDover", "password2");
-		User u3 = new User("mikeTan", "password3");
+//		UserDAO userDAO = new UserDAO(emf);
+//		PostDAO postDAO = new PostDAO(emf);
+//		
+//		User u1 = new User("johnAdams", "password1");
+//		User u2 = new User("benDover", "password2");
+//		User u3 = new User("mikeTan", "password3");
 
 //		userDAO.addUser(u2);
 //		userDAO.addUser(u3);
@@ -35,15 +35,15 @@ public class Runner {
 //		}
 		
 		
-		Post post = new Post("testPost", "this is a test post");
-		u1.createPost(post);
-		userDAO.addUser(u1);
-		
-		List<Post> posts = postDAO.findAllPosts();
-		for (Post p : posts) {
-			System.out.println(p.getBody());
-		}
-		
+//		Post post = new Post("testPost", "this is a test post");
+//		u1.createPost(post);
+//		userDAO.addUser(u1);
+//		
+//		List<Post> posts = postDAO.findAllPosts();
+//		for (Post p : posts) {
+//			System.out.println(p.getBody());
+//		}
+//		
 		
 	}
 }

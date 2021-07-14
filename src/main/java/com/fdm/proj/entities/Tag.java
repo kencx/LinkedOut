@@ -1,7 +1,9 @@
 package com.fdm.proj.entities;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TAG_TABLE")
+@Table(name="TAGS")
 public class Tag {
 
 	@Id
@@ -19,12 +21,21 @@ public class Tag {
 	
 	private String tagName;
 	
-	@ManyToMany(mappedBy = "tags")
-	private List<Post> posts;
+	@ManyToMany(mappedBy="tags", cascade={
+			CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.PERSIST,
+			CascadeType.REFRESH
+			})
+	private Set<Post> posts = new HashSet<>();
 	
 	
 	public Tag() {
 		
+	}
+	
+	public Tag(String tagName) {
+		this.tagName = tagName;
 	}
 	
 	public int getTagId() {
@@ -38,4 +49,14 @@ public class Tag {
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
 	}
+
+	public Set<Post> getPosts() {
+		return posts;
+	}
+
+	public void addPost(Post post) {
+		this.posts.add(post);
+	}
+	
+	
 }
