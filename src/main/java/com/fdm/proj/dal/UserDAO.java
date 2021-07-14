@@ -10,62 +10,55 @@ import javax.persistence.Query;
 import com.fdm.proj.entities.User;
 
 
-public class UserDAO {
-	
-	private EntityManagerFactory emf;
-	
+public class UserDAO extends ObjectDAO<User> {
+
 	public UserDAO(EntityManagerFactory emf) {
-		this.emf = emf;
+		super(emf);
 	}
-	
-	
-	public void addUser(User user) {
+
+
+	@Override
+	public User findById(int id) {
 		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
-		et.begin();
-		em.persist(user);
-		et.commit();
+		User user = em.find(User.class, id);	
 		em.close();
+		return user;
 	}
-	
-	public User findUser(int userId) {
-		EntityManager em = emf.createEntityManager();
-		User user = em.find(User.class, userId);	
-		em.close();
-		return user;	
-	}
-	
-	public List<User> findAllUsers() {
+
+
+	@Override
+	public List<User> findAll() {
 		EntityManager em = emf.createEntityManager();
 		Query query = em.createQuery("SELECT u FROM User u", User.class);
 		List<User> users = query.getResultList();
-		
+
 		em.close();
 		return users;
 	}
-	
-	public void deleteUser(int userId) {
+
+
+	@Override
+	public void delete(int id) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
-		
+
 		et.begin();
-		User user = em.find(User.class, userId);
+		User user = em.find(User.class, id);
 		em.remove(user);
 		et.commit();
 		em.close();
 	}
-	
-	public void updateUserUsername(int userId, String newUsername) {
+
+
+	public void updateElementUsername(int id, String newUsername) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
-		
+
 		et.begin();
-		User user = em.find(User.class, userId);
+		User user = em.find(User.class, id);
 		user.setUsername(newUsername);
 		et.commit();
 		em.close();
 	}
-	
-	
+
 }

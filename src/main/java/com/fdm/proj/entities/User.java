@@ -17,6 +17,19 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * User class defines all attributes of a User account and actions that users can perform such as:
+ * <ul>
+ * 	<li>Creation and deletion of posts</li>
+ * 	<li>Creation and deletion of comments</li>
+ * 	<li>Liking and unliking posts</li>
+ * </ul>
+ * Each user has a collection of posts created by them, comments written by them and posts liked by them.
+ * Each user can create multiple posts and comments, and like multiple posts.
+ * 
+ * @author Kenneth
+ *
+ */
 
 @Entity
 @Table(name="USERS")
@@ -37,12 +50,7 @@ public class User {
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 	
-	@ManyToMany(cascade={
-			CascadeType.DETACH,
-			CascadeType.MERGE,
-			CascadeType.PERSIST,
-			CascadeType.REFRESH
-			})
+	@ManyToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST})
 	@JoinTable(name="USERS_POSTS_LIKED", 
 		joinColumns=@JoinColumn(name="fk_UserId"),
 		inverseJoinColumns=@JoinColumn(name="fk_PostId")
@@ -80,13 +88,24 @@ public class User {
 		this.password = password;
 	}
 	
-	public List<Post> getCreatedPost() {
+	public List<Post> getCreatedPosts() {
 		return createdPosts;
 	}
 	
 	public void createPost(Post post) {
-		post.setUser(this);
-		this.createdPosts.add(post);
+		if (post != null) {
+			if (!(post.getUser() instanceof User)) { // each post only has 1 unmodifiable author (user)
+				createdPosts.add(post);
+				post.setUser(this);
+			}
+		}
+	}
+	
+	public void removePost(Post post) {
+		if (createdPosts.contains(post)) {
+			createdPosts.remove(post);
+			post.setUser(null);
+		}
 	}
 
 	public List<Comment> getComments() {
@@ -94,18 +113,40 @@ public class User {
 	}
 
 	public void createComment(Post post, Comment comment) {
-		comment.setUser(this);
-		comment.setPost(post);
-		this.comments.add(comment);
+		if (comment != null) {
+			// each comment only has 1 unmodifiable author (user) and post
+			if (!(comment.getUser() instanceof User) || !(comment.getPost() instanceof Post)) {
+				this.comments.add(comment);
+				post.addComment(comment);
+				comment.setUser(this);
+				comment.setPost(post);
+			}
+		}
 	}
 
+	public void removeComment(Post post, Comment comment) {
+		// comment must be by user and must belong to post
+		if (comments.contains(comment) && (post.getComments().contains(comment))) {
+			this.comments.remove(comment);
+			post.removeComment(comment);
+			comment.setPost(null);
+			comment.setUser(null);
+		}
+	}
+	
 	public Set<Post> getLikedPosts() {
 		return likedPosts;
 	}
 
 	public void likePost(Post post) {
-		post.addUserToLiked(this);
 		this.likedPosts.add(post);
+		post.addUserToLiked(this);
 	}
 	
+	public void unlikePost(Post post) {
+		if (likedPosts.contains(post)) {
+			this.likedPosts.remove(post);
+			post.removeUserFromLiked(this);
+		}
+	}
 }

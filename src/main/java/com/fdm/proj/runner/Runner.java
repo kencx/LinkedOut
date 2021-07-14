@@ -5,10 +5,14 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.fdm.proj.dal.CommentDAO;
 import com.fdm.proj.dal.PostDAO;
 import com.fdm.proj.dal.UserDAO;
+import com.fdm.proj.entities.Comment;
 import com.fdm.proj.entities.Post;
+import com.fdm.proj.entities.Tag;
 import com.fdm.proj.entities.User;
+
 
 public class Runner {
 	
@@ -18,32 +22,36 @@ public class Runner {
 //		UserDAO userDAO = new UserDAO(emf);
 //		PostDAO postDAO = new PostDAO(emf);
 //		
+//		
 //		User u1 = new User("johnAdams", "password1");
 //		User u2 = new User("benDover", "password2");
 //		User u3 = new User("mikeTan", "password3");
+//		
+//		Post p1 = new Post("testPost", "this is a test post");
+//		Post p2 = new Post("Hello", "Hello World!");
+//		
+//		Comment c1 = new Comment("First!");
+//		Tag t1 = new Tag("Test tag");
+		
 
-//		userDAO.addUser(u2);
-//		userDAO.addUser(u3);
+//		u2.createComment(p1, c1);
+//		
+//		u1.likePost(p2);
+//		
+//		userDAO.add(u1);
 		
-//		userDAO.deleteUser(2);
-//		userDAO.findUser(1);
-//		userDAO.updateUserUsername(3, "mikeLim");
+
+//		p1.addTag(t1);
+	
+//		userDAO.delete(2);
+//		userDAO.findById(1);
+//		userDAO.updateElementUsername(3, "mikeLim");
 		
-//		List<User> users = userDAO.findAllUsers();
+//		List<User> users = userDAO.findAll();
 //		for (User u : users) {
 //			System.out.println(u.getUsername());
 //		}
 		
-		
-//		Post post = new Post("testPost", "this is a test post");
-//		u1.createPost(post);
-//		userDAO.addUser(u1);
-//		
-//		List<Post> posts = postDAO.findAllPosts();
-//		for (Post p : posts) {
-//			System.out.println(p.getBody());
-//		}
-//		
-		
+	
 	}
 }

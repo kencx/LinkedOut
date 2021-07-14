@@ -11,6 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * Tag class defines all attributes of a Tag entity.
+ * Each tag can have multiple posts as a collection of posts that have the same tag.
+ * 
+ * @author Kenneth
+ *
+ */
+
 @Entity
 @Table(name="TAGS")
 public class Tag {
@@ -22,10 +30,10 @@ public class Tag {
 	private String tagName;
 	
 	@ManyToMany(mappedBy="tags", cascade={
-			CascadeType.DETACH,
+//			CascadeType.DETACH,
 			CascadeType.MERGE,
-			CascadeType.PERSIST,
-			CascadeType.REFRESH
+//			CascadeType.PERSIST,
+//			CascadeType.REFRESH
 			})
 	private Set<Post> posts = new HashSet<>();
 	
@@ -56,6 +64,10 @@ public class Tag {
 
 	public void addPost(Post post) {
 		this.posts.add(post);
+	}
+
+	public void removePost(Post post) {
+		this.posts.remove(post);
 	}
 	
 	

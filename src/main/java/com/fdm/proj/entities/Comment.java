@@ -9,6 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Comment class defines all attributes of a Comment entity.
+ * Each comment must have 1 User attribute that corresponds to its author and 1 Post attribute that corresponds to its parent post.
+ * 
+ * @author Kenneth
+ *
+ */
 
 @Entity
 @Table(name="COMMENTS")
@@ -33,20 +40,20 @@ public class Comment {
 		
 	}
 	
-	public Comment(String comment) {
-		this.commentBody = comment;
+	public Comment(String commentBody) {
+		this.commentBody = commentBody;
 	}
 	
 	public int getCommentId() {
 		return commentId;
 	}
 	
-	public String getComment() {
+	public String getCommentBody() {
 		return commentBody;
 	}
 
-	public void setComment(String comment) {
-		this.commentBody = comment;
+	public void setCommentBody(String commentBody) {
+		this.commentBody = commentBody;
 	}
 
 	public User getUser() {
@@ -63,5 +70,5 @@ public class Comment {
 
 	public void setPost(Post post) {
 		this.post = post;
-	}	
+	}
 }
