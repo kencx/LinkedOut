@@ -37,7 +37,7 @@ public class TestObjectDAO {
 
 	@InjectMocks
 	private UserDAO userDAO;
-	private User u1, u2;
+	private User u1;
 	
 	
 	@Before
@@ -52,7 +52,6 @@ public class TestObjectDAO {
 		doNothing().when(em).close();
 		
 		u1 = new User("johnAdams", "password1");
-		u2 = new User("benDover", "password2");
 	}
 
 	

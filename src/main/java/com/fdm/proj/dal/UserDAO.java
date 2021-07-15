@@ -13,19 +13,25 @@ public class UserDAO extends ObjectDAO<User> {
 		super(emf);
 	}
 	
-//	public UserDAO(EntityManager em) {
-//		super(em);
-//	}
-
 	
-	
-	public void updateElementUsername(int id, String newUsername) {
+	public void updateUserUsername(int id, String newUsername) {
 		em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 
 		et.begin();
 		User user = em.find(User.class, id);
 		user.setUsername(newUsername);
+		et.commit();
+		em.close();
+	}
+	
+	
+	public void updateUser(int id, User newUser) {
+		em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		et.begin();
+		em.merge(newUser);
 		et.commit();
 		em.close();
 	}

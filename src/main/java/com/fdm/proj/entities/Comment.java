@@ -28,11 +28,11 @@ public class Comment {
 	private String commentBody;
 		
 	@ManyToOne
-	@JoinColumn(name="fk_UserId", nullable=false, updatable=false)
+	@JoinColumn(name="fk_UserId")
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name="fk_PostId", nullable=false, updatable=false)
+	@JoinColumn(name="fk_PostId")
 	private Post post;
 
 	

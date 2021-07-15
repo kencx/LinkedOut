@@ -2,6 +2,7 @@ package com.fdm.proj.entities;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +36,7 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int postId;
+	
 		
 	private String title;
 	private String body;
@@ -43,18 +45,23 @@ public class Post {
 	@JoinColumn(name="fk_userId")
 	private User user;
 	
-	@OneToMany(mappedBy="post", cascade=CascadeType.ALL)
+	
+	@OneToMany(mappedBy="post", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Comment> comments = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="likedPosts", cascade={CascadeType.MERGE,CascadeType.PERSIST})
+	
+	@ManyToMany(mappedBy="likedPosts", cascade={CascadeType.MERGE,CascadeType.REFRESH})
 	private Set<User> usersWhoLiked = new HashSet<>();
 	
-	@ManyToMany(cascade=CascadeType.MERGE)
+	
+	@ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH})
 	@JoinTable(name="POSTS_TAGS", 
 		joinColumns=@JoinColumn(name="fk_postId"), 
 		inverseJoinColumns=@JoinColumn(name="fk_tagId")
 		)
 	private Set<Tag> tags = new HashSet<>();
+	
+	
 	
 	
 	public Post() {
@@ -92,16 +99,7 @@ public class Post {
 	}
 	
 	public void setUser(User user) {
-//		if (sameUser(user)) 
-//			return;
-		
-//		User oldUser = this.user;
 		this.user = user;
-		
-//		if (oldUser != null) 
-//			oldUser.deletePost(this);
-//		if (user != null)
-//			this.user.createPost(this);
 	}
 
 	public List<Comment> getComments() {
@@ -115,6 +113,25 @@ public class Post {
 	public void removeComment(Comment comment) {
 		this.comments.remove(comment);
 	}
+	
+	public void removeAllComments() {
+		if (getComments().size() >= 0) {
+			for (Iterator<Comment> iter = getComments().iterator(); iter.hasNext();) {
+				Comment comment = (Comment) iter.next();
+				User commenter = comment.getUser();
+				
+				// cannot use commenter.removeComment() due to ConcurrentModificationException
+				// post.removeComment(comment) must be called at the last step
+				// here, it is handled by iter.remove()
+				if (commenter.getComments().contains(comment)) {
+					commenter.getComments().remove(comment);
+					comment.setPost(null);
+					comment.setUser(null);
+				}
+				iter.remove();
+			}
+		}
+	}
 
 	public Set<User> getUsersWhoLiked() {
 		return usersWhoLiked;
@@ -126,6 +143,22 @@ public class Post {
 
 	public void removeUserFromLiked(User user) {
 		this.usersWhoLiked.remove(user);
+	}
+	
+	public void removeAllUsersFromLiked() {
+		if (getUsersWhoLiked().size() >= 0) {
+			for (Iterator<User> iter = getUsersWhoLiked().iterator(); iter.hasNext();) {
+				User liker = (User) iter.next();
+				
+				// cannot use liker.unlike() due to ConcurrentModificationException
+				// post.removeUserFromLiked() must be called at the last step
+				// here, it is handled by iter.remove()
+				if (liker.getLikedPosts().contains(this)) {
+					liker.getLikedPosts().remove(this);
+				}
+				iter.remove();
+			}
+		}
 	}
 
 	public Set<Tag> getTags() {
@@ -145,9 +178,18 @@ public class Post {
 			tag.removePost(this);
 		}
 	}
-
-//	private boolean sameUser(User newUser) {
-//		return this.user==null ? newUser == null : user.equals(newUser);
-//	}
 	
+	public void removeAllTags() {
+		if (getTags().size() >= 0) {
+			for (Iterator<Tag> iter = getTags().iterator(); iter.hasNext();) {
+				Tag tag = (Tag) iter.next();
+				
+				if (tag.getPosts().contains(this)) {
+					tag.removePost(this);
+				}
+				iter.remove();
+			}
+		}
+	}
+
 }

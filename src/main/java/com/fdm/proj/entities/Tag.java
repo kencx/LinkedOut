@@ -29,12 +29,7 @@ public class Tag {
 	
 	private String tagName;
 	
-	@ManyToMany(mappedBy="tags", cascade={
-//			CascadeType.DETACH,
-			CascadeType.MERGE,
-//			CascadeType.PERSIST,
-//			CascadeType.REFRESH
-			})
+	@ManyToMany(mappedBy="tags", cascade={CascadeType.MERGE, CascadeType.REFRESH})
 	private Set<Post> posts = new HashSet<>();
 	
 	

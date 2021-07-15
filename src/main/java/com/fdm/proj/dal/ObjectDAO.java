@@ -31,10 +31,6 @@ public abstract class ObjectDAO<T> {
 		
 	}
 	
-//	public ObjectDAO(EntityManager em) { // for testing
-//		this.em = em;
-//	}
-	
 	
 	/**
 	 * Persists and commits an entity to the database.
@@ -45,10 +41,11 @@ public abstract class ObjectDAO<T> {
 		EntityTransaction et = em.getTransaction();
 
 		et.begin();
-		em.merge(t);
+		em.persist(t);
 		et.commit();
 		em.close();
 	};
+	
 	
 	/**
 	 * Searches the database for the entity with given id.
@@ -77,6 +74,7 @@ public abstract class ObjectDAO<T> {
 		return listOfT;
 	}
 	
+	
 	/**
 	 * Searches the database for the entity with given id and deletes it.
 	 * @param id Id of entity
@@ -91,6 +89,7 @@ public abstract class ObjectDAO<T> {
 		et.commit();
 		em.close();
 	}
+	
 	
 	/**
 	 * Gets the actual class of given type argument T.

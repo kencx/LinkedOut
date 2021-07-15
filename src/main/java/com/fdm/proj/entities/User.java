@@ -2,6 +2,7 @@ package com.fdm.proj.entities;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -41,17 +42,16 @@ public class User {
 	
 	@Column(unique=true)
 	private String username;
-	
 	private String password;
 	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Post> createdPosts = new ArrayList<>();
 	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Comment> comments = new ArrayList<>();
 	
-	@ManyToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST})
-	@JoinTable(name="USERS_POSTS_LIKED", 
+	@ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH})
+	@JoinTable(name="USERS_POSTS_LIKED",
 		joinColumns=@JoinColumn(name="fk_UserId"),
 		inverseJoinColumns=@JoinColumn(name="fk_PostId")
 		)
@@ -103,6 +103,12 @@ public class User {
 	
 	public void removePost(Post post) {
 		if (createdPosts.contains(post)) {
+			
+			// remove all child comments, likes and tags
+			post.removeAllComments();
+			post.removeAllUsersFromLiked();
+			post.removeAllTags();
+			
 			createdPosts.remove(post);
 			post.setUser(null);
 		}
