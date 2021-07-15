@@ -19,39 +19,44 @@ public class Runner {
 	public static void main(String[] args) {
 		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("SocialMediaProject");
-//		UserDAO userDAO = new UserDAO(emf);
-//		PostDAO postDAO = new PostDAO(emf);
-//		
-//		
-//		User u1 = new User("johnAdams", "password1");
-//		User u2 = new User("benDover", "password2");
-//		User u3 = new User("mikeTan", "password3");
-//		
-//		Post p1 = new Post("testPost", "this is a test post");
-//		Post p2 = new Post("Hello", "Hello World!");
-//		
-//		Comment c1 = new Comment("First!");
-//		Tag t1 = new Tag("Test tag");
+		UserDAO userDAO = new UserDAO(emf);
+		PostDAO postDAO = new PostDAO(emf);
+		CommentDAO commentDAO = new CommentDAO(emf);
 		
+		User u1 = new User("johnAdams", "password1");
+		User u2 = new User("benDover", "password2");
 
-//		u2.createComment(p1, c1);
-//		
-//		u1.likePost(p2);
-//		
+	
+		Post p1 = new Post("testPost", "this is a test post");
+		Post p2 = new Post("Hello", "Hello World!");
+
+		Comment c1 = new Comment("First!");
+		Tag t1 = new Tag("Test tag");
+		
+		
+		// Testing DAO CRUD methods
 //		userDAO.add(u1);
-		
-
-//		p1.addTag(t1);
+//		userDAO.add(u2);
 	
 //		userDAO.delete(2);
 //		userDAO.findById(1);
-//		userDAO.updateElementUsername(3, "mikeLim");
-		
+//		userDAO.updateElementUsername(1, "johnDoe");
+//
 //		List<User> users = userDAO.findAll();
 //		for (User u : users) {
 //			System.out.println(u.getUsername());
 //		}
 		
-	
+		
+		// Testing User actions
+		u1.createPost(p1);
+		u2.createPost(p2);
+		
+		userDAO.add(u1);
+		userDAO.add(u2);
+		
+//		u1.likePost(p2);
+//		u1.createComment(p2, c1);
+//		userDAO.add(u1);
 	}
 }

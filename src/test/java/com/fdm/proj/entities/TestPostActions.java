@@ -12,7 +12,7 @@ import org.junit.Test;
  *
  */
 
-public class PostActionsTest {
+public class TestPostActions {
 	
 	private Post p1;
 	private Tag t1;

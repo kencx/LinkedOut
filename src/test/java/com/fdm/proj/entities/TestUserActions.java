@@ -20,7 +20,7 @@ import org.junit.Test;
  */
 
 
-public class UserActionsTest {
+public class TestUserActions {
 
 	private User u1;
 	private Post p1;

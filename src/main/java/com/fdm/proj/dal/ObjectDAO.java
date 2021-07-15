@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
-import javassist.bytecode.analysis.Analyzer;
 
 /**
  * Abstract Database Access Object that can be extended by a child DAO.
@@ -19,6 +19,8 @@ import javassist.bytecode.analysis.Analyzer;
 public abstract class ObjectDAO<T> {
 	
 	protected EntityManagerFactory emf;
+	protected EntityManager em;
+
 	
 	/**
 	 * Constructor for the DAO object.
@@ -26,18 +28,24 @@ public abstract class ObjectDAO<T> {
 	 */
 	public ObjectDAO(EntityManagerFactory emf) {
 		this.emf = emf;
+		
 	}
+	
+//	public ObjectDAO(EntityManager em) { // for testing
+//		this.em = em;
+//	}
+	
 	
 	/**
 	 * Persists and commits an entity to the database.
-	 * @param t Generic entity to be added
+	 * @param t Entity to be added
 	 */
 	public void add(T t) {
-		EntityManager em = emf.createEntityManager();
+		em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 
 		et.begin();
-		em.persist(t);
+		em.merge(t);
 		et.commit();
 		em.close();
 	};
@@ -47,19 +55,46 @@ public abstract class ObjectDAO<T> {
 	 * @param id Id of entity 
 	 * @return	 Entity with given id
 	 */
-	public abstract T findById(int id);
+	public T findById(int id) {
+		em = emf.createEntityManager();
+		T t = em.find(getEntityClass(), id);
+		em.close();
+		return t;
+	}
 	
 	
 	/**
 	 * Finds all initialized entities in the database.
 	 * @return All entities in database
 	 */
-	public abstract List<T> findAll();
+	public List<T> findAll() {
+		em = emf.createEntityManager();
+		Class<T> entityClass = getEntityClass();
+		TypedQuery<T> query = em.createQuery("SELECT e FROM " + entityClass.getName() + " e", getEntityClass());
+		List<T> listOfT = query.getResultList();
+
+		em.close();
+		return listOfT;
+	}
 	
 	/**
 	 * Searches the database for the entity with given id and deletes it.
 	 * @param id Id of entity
 	 */
-	public abstract void delete(int id);
+	public void delete(int id) {
+		em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+
+		et.begin();
+		T t = em.find(getEntityClass(), id);
+		em.remove(t);
+		et.commit();
+		em.close();
+	}
 	
+	/**
+	 * Gets the actual class of given type argument T.
+	 * @return Class of type argument T
+	 */
+	protected abstract Class<T> getEntityClass();
 }
