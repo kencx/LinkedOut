@@ -37,17 +37,17 @@ public class Runner {
 		
 		
 		// Testing DAO CRUD methods
-//		userDAO.add(u1);
-//		userDAO.add(u2);
+		userDAO.add(u1);
+		userDAO.add(u2);
 	
-//		userDAO.delete(2);
-//		userDAO.findById(1);
-//		userDAO.updateElementUsername(1, "johnDoe");
-//
-//		List<User> users = userDAO.findAll();
-//		for (User u : users) {
-//			System.out.println(u.getUsername());
-//		}
+		userDAO.delete(2);
+		userDAO.findById(1);
+		userDAO.updateUserUsername(1, "johnDoe");
+
+		List<User> users = userDAO.findAll();
+		for (User u : users) {
+			System.out.println(u.getUsername());
+		}
 		
 		
 		// Testing User actions
@@ -57,22 +57,22 @@ public class Runner {
 		// However, the mapped collections (post's comments, likedUsers etc.) are updated
 		// Calling both update and delete also throws a ConstraintViolationException (child record found)
 		
-		userDAO.add(u1);
-		userDAO.add(u2);
-		u1.createPost(p1);
-		
-		postDAO.add(p1);
-
-		u2.createComment(p1, c1);
-		u1.likePost(p1);
-		u2.likePost(p1);
-		
-		userDAO.updateUser(u1.getUserId(), u1);
-
-		u1.removePost(p1);
-				
-		userDAO.updateUser(u1.getUserId(), u1);
-		postDAO.updatePost(p1.getPostId(), p1);
+//		userDAO.add(u1);
+//		userDAO.add(u2);
+//		u1.createPost(p1);
+//		
+//		postDAO.add(p1);
+//
+//		u2.createComment(p1, c1);
+//		u1.likePost(p1);
+//		u2.likePost(p1);
+//		
+//		userDAO.updateUser(u1.getUserId(), u1);
+//
+//		u1.removePost(p1);
+//				
+//		userDAO.updateUser(u1.getUserId(), u1);
+//		postDAO.updatePost(p1.getPostId(), p1);
 		
 //		postDAO.delete(p1.getPostId());
 		
