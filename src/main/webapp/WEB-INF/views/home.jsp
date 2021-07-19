@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Homepage</title>
 </head>
 <body>
-
+	<h1>You have logged in successfully!</h1>
 </body>
 </html>

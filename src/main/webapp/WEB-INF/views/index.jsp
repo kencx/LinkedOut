@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Welcome</title>
 </head>
 <body>
-
+	
+	<h1>Welcome to the site.</h1>
+	<a href="login">Click here to login</a>
+	
 </body>
 </html>
