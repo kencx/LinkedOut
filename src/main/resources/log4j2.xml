@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+
+     <Properties>
+<Property name="LOG_PATTERN_WITH_DATE">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
+        <Property name="LOG_PATTERN_NO_DATE">%p %m%n </Property>
+    </Properties>
+    
+    <Appenders>
+        <Console name="STDOUTAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN_NO_DATE}" />
+        </Console>
+    </Appenders>
+
+   
+
+    <Loggers>
+        <Root level="info"/>
+        
+        <Logger name="com.fdm.proj.servlets.RegisterServlet.General" level="error" >
+            <AppenderRef ref="STDOUTAppender" />
+        </Logger>
+
+        <Logger name="com.fdm.proj.servlets.RegisterServlet.Info" level="info" >
+            <AppenderRef ref="STDOUTAppender" />
+        </Logger>
+
+    </Loggers>
+</Configuration>
