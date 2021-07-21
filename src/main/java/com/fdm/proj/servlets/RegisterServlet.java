@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fdm.proj.services.RegisterService;
+import com.fdm.proj.commands.RegisterCommand;
+import com.fdm.proj.commands.RegisterCommandFactory;
 
 
 @WebServlet("/register")
@@ -29,28 +30,17 @@ public class RegisterServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+		RegisterCommandFactory cf = (RegisterCommandFactory) req.getServletContext().getAttribute("rcf");
+		RegisterCommand command = (RegisterCommand) cf.createCommand(req.getServletContext(), req, resp);
+		String page = command.execute();
 		
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
-		String confirmPassword = req.getParameter("confirmPassword");
-		
-		RegisterService rs = (RegisterService) getServletContext().getAttribute("registerService");
-		boolean status = rs.registerUser(username, password, confirmPassword);
-		
-		if (status) {
-			INFO.info("Account creation success! " + username + " account created");
-			resp.sendRedirect(req.getContextPath() + "/login");
-			
-		} else {
-			String errorMessage = rs.getErrorMessage();
-			ERROR.error("Account creation failed! Error: " + errorMessage);			
-			req.setAttribute("registerFailedMessage", errorMessage);
-			
-			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/register.jsp");
+		if (page.equals(req.getServletPath().substring(1))) {
+			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/" + page + ".jsp");
 			rd.forward(req, resp);
 			
+		} else {
+			resp.sendRedirect(req.getContextPath() + "/" + page);			
 		}
-		
 	}
-	
 }

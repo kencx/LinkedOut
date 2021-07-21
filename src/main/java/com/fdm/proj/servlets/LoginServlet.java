@@ -8,13 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fdm.proj.entities.User;
-import com.fdm.proj.services.LoginService;
+import com.fdm.proj.commands.CommandFactory;
+import com.fdm.proj.commands.LoginCommand;
+import com.fdm.proj.commands.LoginCommandFactory;
 
 
 @WebServlet("/login")
@@ -31,26 +31,18 @@ public class LoginServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
+	
+		LoginCommandFactory cf = (LoginCommandFactory) req.getServletContext().getAttribute("lcf");
+		LoginCommand command = (LoginCommand) cf.createCommand(req.getServletContext(), req, resp);
+		String page = command.execute();
 		
-		LoginService ls = (LoginService) req.getServletContext().getAttribute("loginService");
-		User user = ls.verifyUser(username, password);
-
-		if(user != null) {
-			INFO.info("Login success!");
-			HttpSession session = req.getSession();
-			session.setAttribute("currentUserID", user.getUserId());
-			
-			resp.sendRedirect(req.getContextPath() + "/home");
+		if (page.equals(req.getServletPath().substring(1))) {
+			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/" + page + ".jsp");
+			rd.forward(req, resp);
 			
 		} else {
-			ERROR.error("Login failed!");
-			String errorMessage = "Login failed. Please try again.";
-			req.setAttribute("loginFailedMessage", errorMessage);
+			resp.sendRedirect(req.getContextPath() + "/" + page);
 			
-			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp");
-			rd.forward(req, resp);
 		}
 	}
 }

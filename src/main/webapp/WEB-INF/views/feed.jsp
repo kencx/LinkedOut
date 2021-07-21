@@ -36,25 +36,31 @@
 		</form>	
 	</div>
 	
+	
 	<c:forEach var="post" items="${sessionScope.posts}">
 		<div class="post-card">
 			<div class="post-header">
 			<!-- user avatar -->
-				<h3>${post.user.username}</h3> <!-- make into link -->
+				<h3>${post.user.username}</h3>
 			<!-- post time -->
 			</div>
 			<div class="post-body">
 				<p>${post.body}</p>
 			</div>
+			<div class="likes">
+			<!-- number of likes -->
+			</div>
 			
 			<div class="post-comments">
-				<c:forEach var="comment" items="">
+				<c:forEach var="comment" items="${sessionScope[post.postID]}">
 					<div class="comment-card">
 						<div class="comment-header">	
 						<!-- time, name, avatar -->
+						<h5>${comment.user.username}</h5>
 						</div>
 						<div class="comment-body">
 						<!-- body -->
+						<p>${comment.commentBody}</p>
 						</div>
 						<div class="comment-footer">
 						<!-- like, comment, date button -->
@@ -65,7 +71,12 @@
 				
 				<div class="post-comment-form">
 					<!-- text box for commenting on each post -->
+					<form method="POST" action="home">
+						<textarea name="post-comment-box" rows="2" cols="25" placeholder="Post a comment..."></textarea>
+						<button type="submit">Comment</button>
+					</form>	
 				</div>
+				
 			</div>
 		</div>
 	</c:forEach>

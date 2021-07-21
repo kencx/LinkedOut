@@ -20,6 +20,8 @@ public class ProfileServlet extends HttpServlet{
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/profile.jsp");
 		rd.forward(req, resp);
 		
+//		display your posts (posts)
+//		display your personal particulars (user)
 	}
 	
 	

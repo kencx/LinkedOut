@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebFilter(urlPatterns = {"/home", "/profile", "/logout"})
+@WebFilter(urlPatterns = {"/feed", "/profile", "/logout"})
 public class AuthenticationFilter implements Filter {
 
 	@Override

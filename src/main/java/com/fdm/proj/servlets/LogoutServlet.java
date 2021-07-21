@@ -2,18 +2,20 @@ package com.fdm.proj.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fdm.proj.services.LoginService;
+import com.fdm.proj.commands.LoginCommand;
+import com.fdm.proj.commands.LoginCommandFactory;
+import com.fdm.proj.commands.LogoutCommand;
+import com.fdm.proj.commands.LogoutCommandFactory;
+
 
 
 @WebServlet("/logout")
@@ -24,18 +26,10 @@ public class LogoutServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// clear all session data
-		HttpSession session = req.getSession();
-		int userID = (int) session.getAttribute("currentUserID");
+		LogoutCommandFactory cf = (LogoutCommandFactory) req.getServletContext().getAttribute("lgcf");
+		LogoutCommand command = (LogoutCommand) cf.createCommand(req.getServletContext(), req, resp);
+		String page = command.execute();
 		
-		session.removeAttribute("currentUserID");
-		session.invalidate();
-
-		resp.setHeader("Cache-Control", "no-store");
-		INFO.info("Session info cleared successfully!");
-		
-		resp.sendRedirect(req.getContextPath() + "/login");
-		// TODO log here loggged out successfully
-		INFO.info("User " + userID + " logged out successfully");
+		resp.sendRedirect(req.getContextPath() + "/" + page);
 	}
 }

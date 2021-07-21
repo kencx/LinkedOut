@@ -5,22 +5,22 @@ import com.fdm.proj.entities.User;
 
 
 public class LoginService {
-	
-private UserDAO userDAO;
+
+	private UserDAO userDAO;
 	
 	public LoginService(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
-	
-	
-	public User verifyUser(String username, String password) {
-		User user = userDAO.findByUsername(username);
 
-		if (user != null && user.getPassword().equals(password)) {
-			return user;
+	public User verifyUser(String username, String password) {
 			
-		} else {
-			return null;
+			User user = userDAO.findByUsername(username);
+	
+			if (user != null && user.getPassword().equals(password)) {
+				return user;
+				
+			} else {
+				return null;
+			}
 		}
-	}
 }

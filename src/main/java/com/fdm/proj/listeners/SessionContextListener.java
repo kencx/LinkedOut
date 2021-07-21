@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSessionListener;
 public class SessionContextListener implements HttpSessionListener {
 
 	private static int activeSessions;
-	
+	// TODO figure out stuff to add here
 	
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
