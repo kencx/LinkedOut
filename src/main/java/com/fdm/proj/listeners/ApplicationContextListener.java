@@ -10,6 +10,7 @@ import com.fdm.proj.dal.CommentDAO;
 import com.fdm.proj.dal.PostDAO;
 import com.fdm.proj.dal.UserDAO;
 import com.fdm.proj.services.LoginService;
+import com.fdm.proj.services.PostService;
 import com.fdm.proj.services.RegisterService;
 
 
@@ -20,20 +21,27 @@ public class ApplicationContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("SocialMediaProject");
+		sce.getServletContext().setAttribute("emf", emf);
 		
-		UserDAO userDAO = new UserDAO(emf);
+		// Inject DAO Layer
+		UserDAO userDAO = new UserDAO(emf);		
+		PostDAO postDAO = new PostDAO(emf);
+		CommentDAO commentDAO = new CommentDAO(emf);
+		sce.getServletContext().setAttribute("userDAO", userDAO);
+		sce.getServletContext().setAttribute("postDAO", postDAO);
+		sce.getServletContext().setAttribute("commentDAO", commentDAO);
 		
-		// change to sessioncontext
-//		PostDAO postDAO = new PostDAO(emf);
-//		CommentDAO commentDAO = new CommentDAO(emf);
 		
+		// Inject Service Layer
 		LoginService loginService = new LoginService(userDAO);
 		sce.getServletContext().setAttribute("loginService", loginService);
 		
 		RegisterService registerService = new RegisterService(userDAO);
 		sce.getServletContext().setAttribute("registerService", registerService);
 		
-		
+		PostService ps = new PostService(userDAO, postDAO);
+		sce.getServletContext().setAttribute("ps", ps);
+
 	}
 
 	@Override

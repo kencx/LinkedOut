@@ -10,9 +10,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
-@WebFilter
+@WebFilter(urlPatterns = {"/home", "/profile", "/logout"})
 public class AuthenticationFilter implements Filter {
 
 	@Override
@@ -24,14 +27,23 @@ public class AuthenticationFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		// verify if active user is in session
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse resp = (HttpServletResponse) response;
+		
 		boolean authenticated = false;
+		HttpSession session = req.getSession();
+		Integer currentUserID = (Integer) session.getAttribute("currentUserID");
+
+		if (currentUserID != null) {
+			authenticated = true;
+		}
 		
 		if (authenticated) {
+			// TODO log user authenticated
 			chain.doFilter(request, response);
 		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
-			rd.forward(request, response);
+			// TODO log user authenticated failed, redirecting back to login
+			resp.sendRedirect(req.getContextPath() + "/login");
 		}	
 	}
 

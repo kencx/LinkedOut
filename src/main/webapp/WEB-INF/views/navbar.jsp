@@ -3,28 +3,30 @@
 <!DOCTYPE html>
 <html>
 <style>
-	.navbar {
+
+	.nav-items {
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 		overflow: hidden;
 		background-color: #333;
-	}
-	
-	li {
+	}	
+		
+	.nav-items a {
 		float: left;
-	}
-	
-	li a {
 		display: block;
 		color: white;
 		text-align: center;
 		padding: 14px 16px;
 		text-decoration: none;
 	}
-	
-	li a:hover {
+		
+	.nav-items a:hover {
 		background-color: #444;
+	}
+	
+	.nav-items a.active {
+		background-color: #888;
 	}
 	
 </style>
@@ -36,12 +38,24 @@
 
 <body>
 
-	<ul class="navbar">
-		<li><a href="home">Home</a></li>
-		<li><a href="login">Login</a></li>
-		<li><a href="https://git.fdmgroup.com/kenneth.cheo/java-solo-project">About Us</a></li>
-		<li><a href="mailto:kenneth.cheo@fdmgroup.com">Contact Us</a></li>
-	</ul>
-	
+	<nav>
+		<div class="home-icon">
+			
+		</div>
+		
+		<div class="nav-items">
+			<a href="home">Home</a>
+			<a href="profile">Profile</a>
+			<a href="logout">Logout</a>
+		</div>
+		
+		<div>
+			<form action="search" method="GET">
+				<input type="search" placeholder="Search..." name="searchbar">
+				<button type="submit"></button>
+			</form>
+		</div>
+	</nav>
+
 </body>
 </html>

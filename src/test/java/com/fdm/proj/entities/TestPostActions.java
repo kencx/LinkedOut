@@ -19,7 +19,7 @@ public class TestPostActions {
 
 	@Before
 	public void init() {
-		p1 = new Post("testPost", "Hello World!");
+		p1 = new Post("Hello World!");
 		t1 = new Tag("test Tag");
 	}
 	

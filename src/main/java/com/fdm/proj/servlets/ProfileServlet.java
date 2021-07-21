@@ -10,16 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/index")
-public class IndexServlet extends HttpServlet {
-
+@WebServlet("/profile")
+public class ProfileServlet extends HttpServlet{
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/index.jsp");
+		// TODO view profile page and personal particulars	
+		
+		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/profile.jsp");
 		rd.forward(req, resp);
+		
 	}
 	
-	// TODO landing page - similar to linkedin.com
-	// TODO just sign in form with sign in or sign up nav bar
 	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO edit personal particulars
+		
+		
+	}
+
+
 }

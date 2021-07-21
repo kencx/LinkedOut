@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,8 @@ import com.fdm.proj.services.LoginService;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	
-	private static final Logger GENERAL = LogManager.getLogger("com.fdm.proj.servlets.LoginServlet.General");
+	private static final Logger ERROR = LogManager.getLogger("com.fdm.proj.servlets.Error");
+	private static final Logger INFO = LogManager.getLogger("com.fdm.proj.servlets.Info");
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,16 +36,16 @@ public class LoginServlet extends HttpServlet {
 		
 		LoginService ls = (LoginService) req.getServletContext().getAttribute("loginService");
 		User user = ls.verifyUser(username, password);
-		
+
 		if(user != null) {
-			GENERAL.error("Login success!");
-			req.setAttribute("userID", user.getUserId()); // or set to session?
+			INFO.info("Login success!");
+			HttpSession session = req.getSession();
+			session.setAttribute("currentUserID", user.getUserId());
 			
-			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/home.jsp");
-			rd.forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/home");
 			
 		} else {
-			GENERAL.error("Login failed!");
+			ERROR.error("Login failed!");
 			String errorMessage = "Login failed. Please try again.";
 			req.setAttribute("loginFailedMessage", errorMessage);
 			

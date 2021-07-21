@@ -15,7 +15,7 @@ private UserDAO userDAO;
 	
 	public User verifyUser(String username, String password) {
 		User user = userDAO.findByUsername(username);
-		
+
 		if (user != null && user.getPassword().equals(password)) {
 			return user;
 			

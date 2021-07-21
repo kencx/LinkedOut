@@ -14,25 +14,15 @@ public class PostDAO extends ObjectDAO<Post> {
 		super(emf);
 	}	
 	
-	public void updateElementTitle(int id, String newTitle) {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-
-		et.begin();
-		Post post = em.find(Post.class, id);
-		post.setTitle(newTitle);
-		et.commit();
-		em.close();
-	}
 
 	public void updatePost(int id, Post newPost) {
-		em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
-		et.begin();
-		em.merge(newPost);
-		et.commit();
-		em.close();
+//		em = emf.createEntityManager();
+//		EntityTransaction et = em.getTransaction();
+//		
+//		et.begin();
+//		em.merge(newPost);
+//		et.commit();
+//		em.close();
 	}
 
 	@Override

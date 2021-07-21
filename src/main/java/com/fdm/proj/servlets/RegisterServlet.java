@@ -18,7 +18,8 @@ import com.fdm.proj.services.RegisterService;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 	
-	private static final Logger GENERAL = LogManager.getLogger("com.fdm.proj.servlets.RegisterServlet.General");
+	private static final Logger ERROR = LogManager.getLogger("com.fdm.proj.servlets.Error");
+	private static final Logger INFO = LogManager.getLogger("com.fdm.proj.servlets.Info");
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,18 +36,14 @@ public class RegisterServlet extends HttpServlet {
 		
 		RegisterService rs = (RegisterService) getServletContext().getAttribute("registerService");
 		boolean status = rs.registerUser(username, password, confirmPassword);
-		String errorMessage = rs.getErrorMessage();
-		
 		
 		if (status) {
-			GENERAL.error("Account creation success! " + username + "account created");
-			
-			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp");
-			rd.forward(req, resp);
+			INFO.info("Account creation success! " + username + " account created");
+			resp.sendRedirect(req.getContextPath() + "/login");
 			
 		} else {
-			GENERAL.error("Account creation failed! Error: " + errorMessage);
-			
+			String errorMessage = rs.getErrorMessage();
+			ERROR.error("Account creation failed! Error: " + errorMessage);			
 			req.setAttribute("registerFailedMessage", errorMessage);
 			
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/register.jsp");

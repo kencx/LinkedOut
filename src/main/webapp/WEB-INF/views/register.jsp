@@ -11,7 +11,7 @@
 </head>
 
 <body>
-	<jsp:include page="navbar.jsp"/>
+	<jsp:include page="indexbar.jsp"/>
 	
 	<div class="card">
 		<h1>Create Account</h1>
@@ -21,7 +21,7 @@
 			
 			<!-- TODO: add more fields for personal info -->
 			
-			<c:set value='<%= request.getAttribute("registerFailedMessage")%>' var="errorMessage"/>
+			<c:set value='${requestScope.registerFailedMessage}' var="errorMessage"/>
 			<c:if test='${errorMessage != null}'>
 				<p class="error-message"><c:out value='${errorMessage}'/></p>
 			</c:if>

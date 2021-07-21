@@ -18,11 +18,11 @@
     <Loggers>
         <Root level="info"/>
         
-        <Logger name="com.fdm.proj.servlets.RegisterServlet.General" level="error" >
+        <Logger name="com.fdm.proj.servlets.Error" level="error" >
             <AppenderRef ref="STDOUTAppender" />
         </Logger>
 
-        <Logger name="com.fdm.proj.servlets.RegisterServlet.Info" level="info" >
+        <Logger name="com.fdm.proj.servlets.Info" level="info" >
             <AppenderRef ref="STDOUTAppender" />
         </Logger>
 

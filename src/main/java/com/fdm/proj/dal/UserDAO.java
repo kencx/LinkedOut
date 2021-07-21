@@ -43,7 +43,7 @@ public class UserDAO extends ObjectDAO<User> {
 
 		em = emf.createEntityManager();
 		TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username LIKE :username", User.class);
-		query.setParameter("username", username.toLowerCase());
+		query.setParameter("username", username);
 		List<User> users = query.getResultList();
 		
 		for (User user : users) {

@@ -32,7 +32,7 @@ public class TestUserActions {
 	@Before
 	public void init() {
 		u1 = new User("johnAdams", "password1");
-		p1 = new Post("testPost", "Hello World!");
+		p1 = new Post("Hello World!");
 	}
 	
 	
@@ -356,7 +356,7 @@ public class TestUserActions {
 	 */
 	@Test 
 	public void UserAddCommenttoOtherPost() {
-		Post p2 = new Post("post2", "this is a post");
+		Post p2 = new Post("this is a post");
 		c1 = new Comment("First!");
 		u1.createComment(p1, c1);
 		
