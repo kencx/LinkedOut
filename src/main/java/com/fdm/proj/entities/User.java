@@ -1,8 +1,8 @@
 package com.fdm.proj.entities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -44,14 +44,18 @@ public class User {
 	@Column(unique=true)
 	private String username;
 	private String password;
+	private String firstname;
+	private String lastname;
+	private HashMap<String, String> particulars; // TODO update particulars
 	
+
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<Post> createdPosts = new ArrayList<>();
 	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<Comment> comments = new ArrayList<>();
 	
-	@ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToMany(cascade={CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
 	@JoinTable(name="USERS_POSTS_LIKED",
 		joinColumns=@JoinColumn(name="fk_UserId"),
 		inverseJoinColumns=@JoinColumn(name="fk_PostId")
@@ -87,6 +91,30 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public HashMap<String, String> getParticulars() {
+		return particulars;
+	}
+
+	public void setParticulars(HashMap<String, String> particulars) {
+		this.particulars = particulars;
 	}
 	
 	public List<Post> getCreatedPosts() {

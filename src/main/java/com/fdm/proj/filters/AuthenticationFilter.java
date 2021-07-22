@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebFilter(urlPatterns = {"/feed", "/profile", "/logout"})
+@WebFilter(urlPatterns = {"/homefeed", "/profile", "/search", "/logout"})
 public class AuthenticationFilter implements Filter {
 
 	@Override
@@ -32,9 +32,9 @@ public class AuthenticationFilter implements Filter {
 		
 		boolean authenticated = false;
 		HttpSession session = req.getSession();
-		Integer currentUserID = (Integer) session.getAttribute("currentUserID");
+		Integer currentUserId = (Integer) session.getAttribute("currentUserId");
 
-		if (currentUserID != null) {
+		if (currentUserId != null) {
 			authenticated = true;
 		}
 		

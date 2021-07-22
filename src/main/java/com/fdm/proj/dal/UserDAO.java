@@ -28,7 +28,6 @@ public class UserDAO extends ObjectDAO<User> {
 		em.close();
 	}
 	
-	
 	public void updateUser(int id, User newUser) {
 		em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();

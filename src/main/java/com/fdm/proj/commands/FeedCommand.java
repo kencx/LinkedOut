@@ -1,82 +1,91 @@
 package com.fdm.proj.commands;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.fdm.proj.entities.Comment;
+import org.hibernate.internal.build.AllowSysOut;
+
 import com.fdm.proj.entities.Post;
 import com.fdm.proj.entities.User;
 import com.fdm.proj.services.FeedService;
 
 
-public class FeedCommand extends Command {
-	
-	private FeedService feedService;
-	private User user;
+public abstract class FeedCommand extends Command {
+
+	protected FeedService fService;
+	protected User user;
 
 	public FeedCommand(ServletContext sc, HttpServletRequest req, HttpServletResponse resp) {
 		super(sc, req, resp);
-		user = initUser();
 	}
 
-	public User initUser() {
-
-		Integer userID = (Integer) req.getSession().getAttribute("currentUserID");
-		
+	public void initUser() {
 		// set current user instance
-		if (userID != null) {
-			User user = feedService.returnUser(userID);
+		Integer userId = (Integer) req.getSession().getAttribute("currentUserId");
+
+		if (userId != null) {
+			user = fService.returnUser(userId);
 			req.setAttribute("user", user);
-			return user;
 		}
-		return null;
 	}
-	
-	
-	@Override
-	public String execute() throws ServletException, IOException {
+
+	public void writePost() {
+
+		// only when text box form is not empty
+		String postText = req.getParameter("post-text-box");
 		
-		feedService = (FeedService) sc.getAttribute("feedService");
-		HttpSession session = req.getSession(false);
-		
-		// get all posts
-		List<Post> posts = feedService.returnAllPosts();
-		session.setAttribute("posts", posts);
-		
-		// get all comments
-		HashMap<Integer, List<Comment>> commentMap = new HashMap<>();
-		for (Post p : posts) {			
-			int postID = p.getPostId();
-			List<Comment> comments = feedService.returnAllPostComments(p);
-			commentMap.put(postID, comments);
+		if (postText != null && postText != "") {	
+			
+			fService.userCreatePost(user, postText);
+			INFO.info("New Post created by " + user.getUsername());		
 		}
-		session.setAttribute("comments", commentMap);
+	}
+
+	public void writeComment() {
+
+		// only when text box form is not empty and post exists
+		String commentedPostId = req.getParameter("changedPost"); 
+		String commentText = req.getParameter("comment-text-box");
 		
-		return "feed";
+		if (commentedPostId != null && commentText != null && commentText != "") {
+
+			Post commentedPost = fService.returnPost(Integer.parseInt(commentedPostId));			
+			fService.userCreateComment(user, commentedPost, commentText);
+			INFO.info("New Comment created by " + user.getUsername() + " on post " + commentedPost.getPostId());			
+		}	
+	}
+
+	public void likePost() {
+
+		String likedPostId = req.getParameter("changedPost"); 
+		String liked = req.getParameter("like-button"); // TODO 
+		
+		if (likedPostId != null && liked != null) {
+			Post likedPost = fService.returnPost(Integer.parseInt(likedPostId));
+			System.out.println(likedPost);
+			fService.likePost(user, likedPost);
+			System.out.println(user.getLikedPosts());
+			System.out.println(likedPost.getUsersWhoLiked());
+			INFO.info(user.getUsername() + " liked post " + likedPost.getPostId() + " for " + likedPost.getUsersWhoLiked().size() + " likes.");
+		}
 	}
 	
 	
-	public void write() {
-		
-		String newPostBody = req.getParameter("post-text-box");
-		feedService.userCreatePost(user, newPostBody);
-		INFO.info("New Post created by " + user.getUsername());		
+	public FeedService getfService() {
+		return fService;
 	}
-	
-	
-	public void writeComment(Post post) {
-		
-		Post commentedPost = post;
-		String newCommentBody = req.getParameter("comment-text-box");
-		feedService.userCreateComment(user, commentedPost, newCommentBody);
-		INFO.info("New Comment created by " + user.getUsername() + " on post " + commentedPost.getPostId());			
+
+	public void setfService(FeedService fService) {
+		this.fService = fService;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

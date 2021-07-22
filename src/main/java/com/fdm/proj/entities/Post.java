@@ -1,6 +1,7 @@
 package com.fdm.proj.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,21 +40,23 @@ public class Post {
 	private int postId;
 			
 	private String body;
+	private Date time; // TODO format time to String
 	
+
 	@ManyToOne
 	@JoinColumn(name="fk_userId")
 	private User user;
 	
 	
-	@OneToMany(mappedBy="post", cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="post", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<Comment> comments = new ArrayList<>();
 	
 	
-	@ManyToMany(mappedBy="likedPosts", cascade={CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToMany(mappedBy="likedPosts", cascade={CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
 	private Set<User> usersWhoLiked = new HashSet<>();
 	
 	
-	@ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToMany(cascade={CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinTable(name="POSTS_TAGS", 
 		joinColumns=@JoinColumn(name="fk_postId"), 
 		inverseJoinColumns=@JoinColumn(name="fk_tagId")
@@ -80,6 +84,14 @@ public class Post {
 	public void setBody(String body) {
 		this.body = body;
 	}	
+	
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
 	
 	public User getUser() {
 		return user;

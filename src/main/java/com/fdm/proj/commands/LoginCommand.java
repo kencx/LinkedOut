@@ -26,14 +26,15 @@ public class LoginCommand extends Command {
 		String password = req.getParameter("password");
 		
 		LoginService ls = (LoginService) sc.getAttribute("loginService");
-		User user = ls.verifyUser(username, password);
 		
+		User user = ls.verifyUser(username, password);
+				
 		if(user != null) {
-			
+		
 			INFO.info("Login success!");
-			HttpSession session = req.getSession();
-			session.setAttribute("currentUserID", user.getUserId());
-			return "feed";
+			HttpSession session = req.getSession(false);
+			session.setAttribute("currentUserId", user.getUserId());
+			return "homefeed";
 			
 		} else {
 			

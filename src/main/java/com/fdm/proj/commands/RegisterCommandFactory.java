@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterCommandFactory implements CommandFactory{
 
 	@Override
-	public Command createCommand(ServletContext sc, HttpServletRequest req, HttpServletResponse resp) {
+	public RegisterCommand createCommand(ServletContext sc, HttpServletRequest req, HttpServletResponse resp) {
 		return new RegisterCommand(sc, req, resp);
 	}
 }

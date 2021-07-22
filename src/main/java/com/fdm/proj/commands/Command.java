@@ -17,8 +17,8 @@ public abstract class Command {
 	protected HttpServletRequest req;
 	protected HttpServletResponse resp;
 	
-	static final Logger ERROR = LogManager.getLogger("com.fdm.proj.actions.Error");
-	static final Logger INFO = LogManager.getLogger("com.fdm.proj.actions.Info");
+	protected static final Logger ERROR = LogManager.getLogger("com.fdm.proj.commands.Error");
+	protected static final Logger INFO = LogManager.getLogger("com.fdm.proj.commands.Info");
 	
 	public Command (ServletContext sc, HttpServletRequest req, HttpServletResponse resp) {
 		this.sc = sc;

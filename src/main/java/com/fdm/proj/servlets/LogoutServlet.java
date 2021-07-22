@@ -21,13 +21,14 @@ import com.fdm.proj.commands.LogoutCommandFactory;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 	
-	private static final Logger INFO = LogManager.getLogger("com.fdm.proj.servlets.Info");
-
+	private LogoutCommandFactory cf;
+	private LogoutCommand command;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		LogoutCommandFactory cf = (LogoutCommandFactory) req.getServletContext().getAttribute("lgcf");
-		LogoutCommand command = (LogoutCommand) cf.createCommand(req.getServletContext(), req, resp);
+		cf = (LogoutCommandFactory) req.getServletContext().getAttribute("lgcf");
+		command = cf.createCommand(req.getServletContext(), req, resp);
 		String page = command.execute();
 		
 		resp.sendRedirect(req.getContextPath() + "/" + page);

@@ -16,13 +16,13 @@ public class PostDAO extends ObjectDAO<Post> {
 	
 
 	public void updatePost(int id, Post newPost) {
-//		em = emf.createEntityManager();
-//		EntityTransaction et = em.getTransaction();
-//		
-//		et.begin();
-//		em.merge(newPost);
-//		et.commit();
-//		em.close();
+		em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		et.begin();
+		em.merge(newPost);
+		et.commit();
+		em.close();
 	}
 
 	@Override

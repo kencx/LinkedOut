@@ -9,22 +9,21 @@ import com.fdm.proj.entities.Comment;
 import com.fdm.proj.entities.Post;
 import com.fdm.proj.entities.User;
 
-public class FeedService {
-	
-	private UserDAO userDAO;
-	private PostDAO postDAO;
-	private CommentDAO commentDAO;
 
+public abstract class FeedService {
 	
-	public FeedService( UserDAO userDAO, PostDAO postDAO, CommentDAO commentDAO) {
+	protected UserDAO userDAO;
+	protected PostDAO postDAO;
+
+	public FeedService(UserDAO userDAO, PostDAO postDAO) {
 		this.postDAO = postDAO;
 		this.userDAO = userDAO; 
-		this.commentDAO = commentDAO;
 	}
+
+	public abstract List<Post> returnFeedPosts();
 	
-	
-	public User returnUser(int userID) {
-		User user = userDAO.findById(userID);
+	public User returnUser(int userId) {
+		User user = userDAO.findById(userId);
 		return user;
 	}
 	
@@ -40,15 +39,19 @@ public class FeedService {
 		userDAO.updateUser(user.getUserId(), user);
 	}
 	
-	public List<Post> returnAllPosts() {
-		List<Post> posts = postDAO.findAll();
-		return posts;
+	public Post returnPost(int postID) {
+		Post post = postDAO.findById(postID);
+		return post;
 	}
 	
 	public List<Comment> returnAllPostComments(Post post) {
 		List<Comment> comments = post.getComments();
 		return comments;
 	}
-	
+
+	public void likePost(User user, Post likedPost) {
+		user.likePost(likedPost);
+		postDAO.updatePost(likedPost.getPostId(), likedPost);
+	}
 	
 }

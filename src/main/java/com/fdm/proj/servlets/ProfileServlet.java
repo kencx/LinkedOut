@@ -9,28 +9,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fdm.proj.commands.ProfileFeedCommand;
+import com.fdm.proj.commands.ProfileFeedCommandFactory;
+
 
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet{
 	
+	private ProfileFeedCommandFactory cf;
+	private ProfileFeedCommand command;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO view profile page and personal particulars	
 		
-		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/profile.jsp");
+		cf = (ProfileFeedCommandFactory) req.getServletContext().getAttribute("pcf");
+		command = cf.createCommand(req.getServletContext(), req, resp);
+		String page =  command.execute();
+		
+		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/" + page + ".jsp");
 		rd.forward(req, resp);
-		
-//		display your posts (posts)
-//		display your personal particulars (user)
 	}
-	
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		cf = (ProfileFeedCommandFactory) req.getServletContext().getAttribute("pcf");
+		command = cf.createCommand(req.getServletContext(), req, resp);
+		String page = command.execute();
+		
+		command.writePost();
+		command.writeComment(); 
+		
 		// TODO edit personal particulars
+		command.edit();
 		
-		
+		resp.sendRedirect(req.getContextPath() + "/" + page);
 	}
-
-
 }

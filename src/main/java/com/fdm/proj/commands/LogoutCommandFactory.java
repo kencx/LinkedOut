@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutCommandFactory implements CommandFactory {
 
 	@Override
-	public Command createCommand(ServletContext sc, HttpServletRequest req, HttpServletResponse resp) {
+	public LogoutCommand createCommand(ServletContext sc, HttpServletRequest req, HttpServletResponse resp) {
 		return new LogoutCommand(sc, req, resp);
 	}
 }

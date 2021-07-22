@@ -9,19 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fdm.proj.commands.FeedCommand;
-import com.fdm.proj.commands.FeedCommandFactory;
+import com.fdm.proj.commands.HomeFeedCommand;
+import com.fdm.proj.commands.HomeFeedCommandFactory;
+import com.fdm.proj.commands.ProfileFeedCommand;
+import com.fdm.proj.commands.ProfileFeedCommandFactory;
 
 
-@WebServlet("/feed")
+@WebServlet("/homefeed")
 public class FeedServlet extends HttpServlet {
 	
-		
+	private HomeFeedCommandFactory cf;
+	private HomeFeedCommand command;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		FeedCommandFactory cf = (FeedCommandFactory) req.getServletContext().getAttribute("fcf");
-		FeedCommand command = (FeedCommand) cf.createCommand(req.getServletContext(), req, resp);
+		cf = (HomeFeedCommandFactory) req.getServletContext().getAttribute("fcf");
+		command = cf.createCommand(req.getServletContext(), req, resp);
 		String page =  command.execute();
 		
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/" + page + ".jsp");
@@ -32,12 +36,13 @@ public class FeedServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		FeedCommandFactory cf = (FeedCommandFactory) req.getServletContext().getAttribute("fcf");
-		FeedCommand command = (FeedCommand) cf.createCommand(req.getServletContext(), req, resp);
+		cf = (HomeFeedCommandFactory) req.getServletContext().getAttribute("fcf");
+		command = cf.createCommand(req.getServletContext(), req, resp);
 		String page = command.execute();
 		
-		command.write();
-		command.writeComment(null); // get the relevant postID
+		command.writePost();
+		command.writeComment(); 
+		command.likePost();
 		
 		resp.sendRedirect(req.getContextPath() + "/" + page);
 	

@@ -15,14 +15,16 @@ import org.apache.logging.log4j.Logger;
 import com.fdm.proj.commands.CommandFactory;
 import com.fdm.proj.commands.LoginCommand;
 import com.fdm.proj.commands.LoginCommandFactory;
+import com.fdm.proj.commands.ProfileFeedCommand;
+import com.fdm.proj.commands.ProfileFeedCommandFactory;
 
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	
-	private static final Logger ERROR = LogManager.getLogger("com.fdm.proj.servlets.Error");
-	private static final Logger INFO = LogManager.getLogger("com.fdm.proj.servlets.Info");
-
+	private LoginCommandFactory cf;
+	private LoginCommand command;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp");
@@ -32,8 +34,8 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
-		LoginCommandFactory cf = (LoginCommandFactory) req.getServletContext().getAttribute("lcf");
-		LoginCommand command = (LoginCommand) cf.createCommand(req.getServletContext(), req, resp);
+		cf = (LoginCommandFactory) req.getServletContext().getAttribute("lcf");
+		command = cf.createCommand(req.getServletContext(), req, resp);
 		String page = command.execute();
 		
 		if (page.equals(req.getServletPath().substring(1))) {

@@ -30,14 +30,14 @@ public class RegisterCommand extends Command {
 		if (status) {
 			
 			INFO.info("Account creation success! " + username + " account created");
-			return "feed";
+			return "login";
 			
 		} else {
 			
 			String errorMessage = rs.getErrorMessage();
 			ERROR.error("Account creation failed! Error: " + errorMessage);			
 			req.setAttribute("registerFailedMessage", errorMessage);
-			return "login";
+			return "register";
 		}
 	}
 }

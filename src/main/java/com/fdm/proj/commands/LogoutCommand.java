@@ -20,13 +20,11 @@ public class LogoutCommand extends Command {
 		
 		// clear all session data
 		HttpSession session = req.getSession();
-		int userID = (int) session.getAttribute("currentUserID");
+		int userId = (int) session.getAttribute("currentUserId");
 		session.invalidate();
 		
 		resp.setHeader("Cache-Control", "no-store");
-		INFO.info("Session info cleared successfully!");
-		
-		INFO.info("User " + userID + " logged out successfully");
+		INFO.info("Session info cleared successfully! User " + userId + " logged out successfully.");
 		return "login";
 	}
 	

@@ -19,8 +19,8 @@ import com.fdm.proj.commands.RegisterCommandFactory;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 	
-	private static final Logger ERROR = LogManager.getLogger("com.fdm.proj.servlets.Error");
-	private static final Logger INFO = LogManager.getLogger("com.fdm.proj.servlets.Info");
+	private RegisterCommandFactory cf;
+	private RegisterCommand command;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,8 +31,8 @@ public class RegisterServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
-		RegisterCommandFactory cf = (RegisterCommandFactory) req.getServletContext().getAttribute("rcf");
-		RegisterCommand command = (RegisterCommand) cf.createCommand(req.getServletContext(), req, resp);
+		cf = (RegisterCommandFactory) req.getServletContext().getAttribute("rcf");
+		command = cf.createCommand(req.getServletContext(), req, resp);
 		String page = command.execute();
 		
 		if (page.equals(req.getServletPath().substring(1))) {
