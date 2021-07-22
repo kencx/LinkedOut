@@ -46,8 +46,8 @@ public class User {
 	private String password;
 	private String firstname;
 	private String lastname;
-	private HashMap<String, String> particulars; // TODO update particulars
-	
+	private String location;
+	private String occupation;
 
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<Post> createdPosts = new ArrayList<>();
@@ -109,14 +109,23 @@ public class User {
 		this.lastname = lastname;
 	}
 
-	public HashMap<String, String> getParticulars() {
-		return particulars;
+	
+	public String getLocation() {
+		return location;
 	}
 
-	public void setParticulars(HashMap<String, String> particulars) {
-		this.particulars = particulars;
+	public void setLocation(String location) {
+		this.location = location;
 	}
-	
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
 	public List<Post> getCreatedPosts() {
 		return createdPosts;
 	}

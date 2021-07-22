@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/index")
+@WebServlet(urlPatterns={"/index"})
 public class IndexServlet extends HttpServlet {
 
 	@Override
@@ -18,8 +18,5 @@ public class IndexServlet extends HttpServlet {
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/index.jsp");
 		rd.forward(req, resp);
 	}
-	
-	// TODO landing page - similar to linkedin.com
-	// TODO just sign in form with sign in or sign up nav bar
 	
 }

@@ -3,45 +3,29 @@
 <!DOCTYPE html>
 <html>
 <style>
-	.navbar {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-		overflow: hidden;
-		background-color: #333;
-	}
-	
-	li {
-		float: left;
-	}
-	
-	li a {
-		display: block;
-		color: white;
-		text-align: center;
-		padding: 14px 16px;
-		text-decoration: none;
-	}
-	
-	li a:hover {
-		background-color: #444;
-	}
 	
 </style>
 
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	<meta charset="ISO-8859-1">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/navbar.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<title>Insert title here</title>
 </head>
 
 <body>
 
-	<ul class="navbar">
-		<li><a href="index">Home</a></li>
-		<li><a href="login">Login</a></li>
-		<li><a href="https://git.fdmgroup.com/kenneth.cheo/java-solo-project">About Us</a></li>
-		<li><a href="mailto:kenneth.cheo@fdmgroup.com">Contact Us</a></li>
-	</ul>
-	
+	<nav class="scroll-item">
+
+		<div class="nav-items">
+			<a href="index"><i class="fa fa-home"></i> Home</a>
+			<a href="login">Login</a>
+			<a href="register">Create Account</a>
+			
+			<a class="right" href="https://git.fdmgroup.com/kenneth.cheo/java-solo-project">About Us</a>
+			<a class="right" href="mailto:kenneth.cheo@fdmgroup.com">Contact Us</a>
+		</div>
+	</nav>
+
 </body>
 </html>

@@ -39,8 +39,8 @@ public class ProfileServlet extends HttpServlet{
 		
 		command.writePost();
 		command.writeComment(); 
+		command.likePost();
 		
-		// TODO edit personal particulars
 		command.edit();
 		
 		resp.sendRedirect(req.getContextPath() + "/" + page);

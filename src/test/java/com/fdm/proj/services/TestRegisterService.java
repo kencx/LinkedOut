@@ -27,13 +27,15 @@ public class TestRegisterService {
 	
 	@InjectMocks
 	private RegisterService rs;	
-	private String username, password, confirmPassword;
+	private String username, password, confirmPassword, firstname, lastname;
 	private User user;
 	
 	
 	@Before
 	public void init() {
 		MockitoAnnotations.initMocks(this);
+		firstname = "John";
+		lastname = "Adams";
 	}
 	
 	
@@ -44,7 +46,7 @@ public class TestRegisterService {
 		confirmPassword = "Passw0rd@";
 		String expectedMessage = "Required fields are empty!";
 		
-		boolean status = rs.registerUser(username, password, confirmPassword);
+		boolean status = rs.registerUser(username, password, confirmPassword, firstname, lastname);
 		assertFalse(status);
 		assertEquals(expectedMessage, rs.getErrorMessage());
 	}
@@ -56,7 +58,7 @@ public class TestRegisterService {
 		confirmPassword = "failedMatch";
 		String expectedMessage = "Passwords do not match!";
 		
-		boolean status = rs.registerUser(username, password, confirmPassword);
+		boolean status = rs.registerUser(username, password, confirmPassword, firstname, lastname);
 		assertFalse(status);
 		assertEquals(expectedMessage, rs.getErrorMessage());
 	}
@@ -71,7 +73,7 @@ public class TestRegisterService {
 		user = new User("johnAdams", "Passw0rd@");
 		when(userDAO.findByUsername(username)).thenReturn(user);
 		
-		boolean status = rs.registerUser(username, password, confirmPassword);
+		boolean status = rs.registerUser(username, password, confirmPassword, firstname, lastname);
 		assertFalse(status);
 		assertEquals(expectedMessage, rs.getErrorMessage());
 	}
@@ -85,7 +87,7 @@ public class TestRegisterService {
 		
 		when(userDAO.findByUsername(username)).thenReturn(user);
 		
-		boolean status = rs.registerUser(username, password, confirmPassword);
+		boolean status = rs.registerUser(username, password, confirmPassword, firstname, lastname);
 		assertFalse(status);
 		assertEquals(expectedMessage, rs.getErrorMessage());
 	}
@@ -99,7 +101,7 @@ public class TestRegisterService {
 		
 		when(userDAO.findByUsername(username)).thenReturn(user);
 		
-		boolean status = rs.registerUser(username, password, confirmPassword);
+		boolean status = rs.registerUser(username, password, confirmPassword, firstname, lastname);
 		assertFalse(status);
 		assertEquals(expectedMessage, rs.getErrorMessage());
 	}
@@ -114,7 +116,7 @@ public class TestRegisterService {
 		when(userDAO.findByUsername(username)).thenReturn(null);
 		doNothing().when(userDAO).add(user);
 		
-		boolean status = rs.registerUser(username, password, confirmPassword);
+		boolean status = rs.registerUser(username, password, confirmPassword, firstname, lastname);
 		assertTrue(status);
 		assertNull(rs.getErrorMessage());
 		verify(userDAO, times(1)).add(any(User.class));

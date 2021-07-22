@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import com.fdm.proj.entities.Comment;
 import com.fdm.proj.entities.Post;
-import com.fdm.proj.entities.User;
 import com.fdm.proj.services.ProfileFeedService;
 
 
@@ -33,11 +32,6 @@ public class ProfileFeedCommand extends FeedCommand {
 		
 		HttpSession session = req.getSession();
 		
-		
-		// display your personal particulars (user)
-
-		
-		
 		// get user's posts
 		List<Post> posts = fService.returnFeedPosts();
 		session.setAttribute("posts", posts);
@@ -57,9 +51,20 @@ public class ProfileFeedCommand extends FeedCommand {
 	
 	public String edit() {
 		
-		HttpSession session = req.getSession();
+		// downcast to access child methods
+		ProfileFeedService fService = (ProfileFeedService) getfService();
+				
+		String firstname = req.getParameter("firstname");
+		String lastname = req.getParameter("lastname");
+		String location = req.getParameter("location");
+		String occupation = req.getParameter("occupation");
+		String password = req.getParameter("password");
+		String confirmPassword = req.getParameter("confirmPassword");
 		
-		return null;
+		fService.updateUserDetails(firstname, lastname, location, occupation, password, confirmPassword);
+		INFO.info("User " + user.getUsername() + " particulars updated!");
+		
+		return "profile";
 	}
 
 }

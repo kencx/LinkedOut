@@ -6,48 +6,58 @@
 <html>
 <style>
 
-	.scroll-card {
-		position: fixed;
-		z-index: 1;
+	.scroll-container {
 		width: 300;
 		left: 5%;
 		right: 75%;
+		margin-top: 40px;
 	}
 	
-	.profile-card {
+	.profile-container {
 		width: 100%;
 		position: absolute;
-		color:#000;
-		background-color:#fff;
-		padding: 20px 20px;
 		margin: 20px 20px;
-		border-radius: 4px;
-		box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
-		
-		text-align: center;	
 	}
 		
 	.profile-avatar {
 		width: 100px;
 		border-radius: 50%;
 	}
+	
+	.profile-container {
+		text-transform: capitalize;
+	}
+
 </style>
 
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	<meta charset="ISO-8859-1">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<title>Insert title here</title>
 </head>
 
 <body>
-	<div class="scroll-card">
-	
-		<div class="profile-card">
-			<h3>My Profile</h3>
-			<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="profile-avatar"/><br>
-			<h3>${requestScope.user.username}</h3>
-			<hr style="opacity:0.5">
-			<p>Singapore</p>
-			<!-- occupation, dob, location -->
+	<div class="scroll-item scroll-container">
+		
+		<div class="card container profile-container">
+			<div class="header">
+				<h1></h1>
+			</div>
+			
+			<div style="margin: 20px 20px">
+				<h3><a href="profile">My Profile</a></h3>
+				<c:set value="${requestScope.user}" var="user"></c:set>
+				<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="profile-avatar"/><br>
+				<h3>${user.firstname} ${user.lastname}</h3>
+				<hr style="opacity:0.5">
+				
+				<c:if test="${user.location != null}">
+					<p>Location: ${user.location}</p>
+				</c:if>
+				<c:if test="${user.occupation != null}">
+					<p>Occupation: ${user.occupation}</p>
+				</c:if>
+			</div>
 		</div>
 	</div>
 </body>

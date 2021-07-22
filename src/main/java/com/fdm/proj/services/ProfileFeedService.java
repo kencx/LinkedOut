@@ -31,6 +31,35 @@ public class ProfileFeedService extends FeedService {
 		this.userId = userId;
 	}
 	
-	// edit profile helper methods
 	
+	public void updateUserDetails(String firstname, String lastname, String location, String occupation, String password, String confirmPassword) {
+
+		User currentUser = returnUser(userId);
+		
+		// TODO simplify this
+		if (firstname != null && firstname != "") {
+			currentUser.setFirstname(firstname);			
+		}
+		
+		if (lastname != null && lastname != "") {
+			currentUser.setLastname(lastname);
+		}
+
+		if (location != null && location != "") {
+			currentUser.setLocation(location);
+		}
+		
+		if (occupation != null && occupation != "") {
+			currentUser.setOccupation(occupation);
+		}
+		
+		// TODO ensure password meets registration requirements
+		if (password != null && confirmPassword != null && password != "") {
+			if (password.equals(confirmPassword)) {
+				currentUser.setPassword(password);
+			}
+		}
+		
+		userDAO.updateUser(userId, currentUser);
+	}
 }

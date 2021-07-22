@@ -20,12 +20,14 @@ public class RegisterCommand extends Command {
 	@Override
 	public String execute() throws ServletException, IOException {
 		
+		String firstname = req.getParameter("firstname");
+		String lastname = req.getParameter("lastname");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		String confirmPassword = req.getParameter("confirmPassword");
 		
 		RegisterService rs = (RegisterService) sc.getAttribute("registerService");
-		boolean status = rs.registerUser(username, password, confirmPassword);
+		boolean status = rs.registerUser(username, password, confirmPassword, firstname, lastname);
 		
 		if (status) {
 			

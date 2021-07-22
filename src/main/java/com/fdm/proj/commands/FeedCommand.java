@@ -27,6 +27,8 @@ public abstract class FeedCommand extends Command {
 		if (userId != null) {
 			user = fService.returnUser(userId);
 			req.setAttribute("user", user);
+		} else {
+			
 		}
 	}
 
@@ -48,7 +50,7 @@ public abstract class FeedCommand extends Command {
 		String commentedPostId = req.getParameter("changedPost"); 
 		String commentText = req.getParameter("comment-text-box");
 		
-		if (commentedPostId != null && commentText != null && commentText != "") {
+		if (commentedPostId != null && commentText != null && commentText != "" && req.getParameter("comment-button") != null) {
 
 			Post commentedPost = fService.returnPost(Integer.parseInt(commentedPostId));			
 			fService.userCreateComment(user, commentedPost, commentText);
@@ -59,9 +61,9 @@ public abstract class FeedCommand extends Command {
 	public void likePost() {
 
 		String likedPostId = req.getParameter("changedPost"); 
-		String liked = req.getParameter("like-button"); // TODO 
+		String liked = req.getParameter("like-button"); 
 		
-		if (likedPostId != null && liked != null) {
+		if (likedPostId != null && liked != null && req.getParameter("like-button") != null) {
 			Post likedPost = fService.returnPost(Integer.parseInt(likedPostId));
 			System.out.println(likedPost);
 			fService.likePost(user, likedPost);
