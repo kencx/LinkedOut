@@ -10,7 +10,7 @@
 		width: 300;
 		left: 5%;
 		right: 75%;
-		margin-top: 40px;
+		top: 18%;
 	}
 	
 	.profile-container {
@@ -26,6 +26,20 @@
 	
 	.profile-container {
 		text-transform: capitalize;
+	}
+	
+	.container a {
+		text-decoration: none;
+		color: black;	
+	}
+	
+	.container a:hover {
+		text-decoration: underline;
+		color: #5691C8;
+	}
+	
+	.profile-container a {
+		font-size: 32px;
 	}
 
 </style>
@@ -45,7 +59,7 @@
 			</div>
 			
 			<div style="margin: 20px 20px">
-				<h3><a href="profile">My Profile</a></h3>
+				<h1><a href="profile">My Profile</a></h1>
 				<c:set value="${requestScope.user}" var="user"></c:set>
 				<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="profile-avatar"/><br>
 				<h3>${user.firstname} ${user.lastname}</h3>

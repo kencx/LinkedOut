@@ -19,6 +19,7 @@
 	
 	.post-text-box {
 		margin: 16px;
+		padding: padding: 0 10px;
 		color:#000;
 		background-color:#fff;
 		border-radius: 4px;
@@ -31,10 +32,6 @@
 		clear:both
 	}
 		
-	.post-header {
-		width: 25%;
-	}
-	
 	.post-body {
 		margin-left: 20px;
 	}
@@ -47,11 +44,11 @@
 	}
 	
 	.avatar#comment {
-		width: 20px;
+		width: 25px;
 	}
 	
 	.time {
-		font-size: 12px;
+		font-size: 10px;
 		margin-top: -16px;
 	}
 	
@@ -61,6 +58,7 @@
 	
 	.interaction-bar .likes {
 		float:right; 
+		margin-bottom: -10px;
 		margin-right:20px
 	}
 	
@@ -91,12 +89,33 @@
 	.header #text-box {
 		padding: 10px;
 	}
+		
+	.greeting h3 {
+		float: left;
+		opacity: 0.8; 
+		margin: 16px;
+		padding-left: 3px; 
+		padding-top:5px; 
+		text-transform:capitalize;
+	}
+	
+	#options-menu {
+		float: right;
+		border-radius: 30%;
+		padding: 5px;
+		margin: 10px;
+	}
+	
+	#options-menu:hover {
+		background-color: #EBEBFF;
+	}
 	
 </style>
 
 <head>
 <meta charset="ISO-8859-1">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 	<title>Insert title here</title>
 </head>
 
@@ -110,12 +129,17 @@
 			<div class="header" id="text-box">	
 				<p></p>
 			</div>	
-			<div style="padding: 0 10px;">
-				<h3 style="opacity: 0.8; margin: 16px; padding-left: 3px; text-transform:capitalize;">Welcome ${requestScope.user.firstname} ${requestScope.user.lastname}</h3>
-				<form method="POST">
-					<textarea name="post-text-box" rows="2" placeholder="Tell us about your day..."></textarea>
-					<button class="post-button" type="submit">Post</button>
-				</form>	
+			<div class="text-box">
+				<div class="greeting">
+					<h3>Welcome ${requestScope.user.firstname} ${requestScope.user.lastname}!</h3>
+					<span id="options-menu">...</span>
+				</div>
+				<div>
+					<form method="POST">
+						<textarea name="post-text-box" rows="2" placeholder="Tell us about your day..."></textarea>
+						<button class="post-button" type="submit">Post</button>
+					</form>	
+				</div>
 			</div>
 		</div>
 		
@@ -125,7 +149,9 @@
 				
 				<div class="post-header">
 					<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar"/>
-					<h4>${post.user.username}</h4><p class="time">5s</p> <!-- post time -->
+					<h4>${requestScope.user.firstname} ${requestScope.user.lastname}</h4>
+					<p class="time">1 m</p> <!-- post time -->
+					<span id="options-menu" style="float:right; margin-top: -50px">...</span>
 				</div>
 				
 				<hr class="clear" style="margin-top:-5px"></hr>
@@ -144,6 +170,7 @@
 							<input type="hidden" value="${post.postId}" name="changedPost">
 							
 							<div class="interaction-bar">
+								
 								<!-- if user liked already, change to unlike button -->
 								<button class="post-button" type="submit" name="like-button" value="liked">Like</button>
 								<button class="post-button" type="submit" name="comment-button">Comment</button>
@@ -164,10 +191,10 @@
 					<!--  comment block -->
 					<div class="post-comments">
 						<c:forEach var="comment" items="${post.comments}">
-							<div class="container comment-card">
+							<div class="container comment-card" style="box-shadow:none; border: 1px solid #ccc">
 								<div class="comment-header">	
 									<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="comment"/>
-									<span style="float:right; font-size:12px">5s</span><h5>${comment.user.username}</h5>
+									<p class="time" style="float:right; margin-top:-5px">1 m</p><h5>${requestScope.user.firstname} ${requestScope.user.lastname}</h5>
 								</div>
 								<div class="comment-body">
 									<p>${comment.commentBody}</p>
@@ -192,7 +219,7 @@
 				<c:forEach var="likedUser" items="${likedUsers}">
 					<div class="like-user-card">
 						<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="liked-user"/>
-						<h4>${likedUser.username}</h4>
+						<h4>${requestScope.user.firstname} ${requestScope.user.lastname}</h4>
 					</div>
 				</c:forEach>
 			</div>

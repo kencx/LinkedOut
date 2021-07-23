@@ -9,6 +9,7 @@
 	<title>Create Account Page</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/details.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 </head>
 
 <body>
@@ -33,6 +34,10 @@
 
 			<button>create account</button>
 		</form>		
+	</div>
+	
+	<div class="footer">
+		<p>Kenneth Cheo | © 2021</p>
 	</div>
 </body>
 </html>

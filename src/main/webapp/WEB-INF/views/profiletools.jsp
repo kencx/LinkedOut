@@ -8,18 +8,13 @@
 	
 	.tools {
 		position: absolute;
-		top: 110px;
+		top: 106px;
 		left: 8%;
-		right: 70%;
 		align: center;
-	}
-	
-	.edit-field {
-		width: 100%;
-		margin: 10px;
-		padding: 15px;
-		font-size: 16px;
-		box-sizing: border-box;
+		padding-top: 12px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		background-color: #495867;
 	}
 	
 	#edit-container {
@@ -41,10 +36,10 @@
 
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/details.css" />
-
-<title>Insert title here</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/details.css" />
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+	<title>Insert title here</title>
 </head>
 
 <body>

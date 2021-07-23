@@ -9,6 +9,7 @@
 <meta charset="ISO-8859-1">
 	<title>Profile</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 </head>
 
 <body>
@@ -22,6 +23,7 @@
 		<jsp:include page="feed.jsp"/>
 		
 		<button onclick="topFunction()" id="top-button" class="top-button" title="Go to Top"><i class="fa fa-arrow-up"></i></button>
+	
 	</div>
 </body>
 

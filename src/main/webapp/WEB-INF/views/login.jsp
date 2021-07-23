@@ -16,5 +16,9 @@
 	<jsp:include page="indexbar.jsp"/>
 	
 	<jsp:include page="logincard.jsp"/>
+	
+	<div class="footer">
+		<p>Kenneth Cheo | © 2021</p>
+	</div>
 </body>
 </html>

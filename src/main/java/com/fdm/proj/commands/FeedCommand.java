@@ -64,11 +64,9 @@ public abstract class FeedCommand extends Command {
 		String liked = req.getParameter("like-button"); 
 		
 		if (likedPostId != null && liked != null && req.getParameter("like-button") != null) {
+			
 			Post likedPost = fService.returnPost(Integer.parseInt(likedPostId));
-			System.out.println(likedPost);
 			fService.likePost(user, likedPost);
-			System.out.println(user.getLikedPosts());
-			System.out.println(likedPost.getUsersWhoLiked());
 			INFO.info(user.getUsername() + " liked post " + likedPost.getPostId() + " for " + likedPost.getUsersWhoLiked().size() + " likes.");
 		}
 	}

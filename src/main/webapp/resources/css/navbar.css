@@ -7,10 +7,11 @@
 	.nav-items {
 		list-style-type: none;
 		margin: 0;
-		padding: 0;
+		padding: 2px 0;
 		overflow: hidden;
 		background-color: #495867;
-		
+		font-family: "Open Sans"; 
+		font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px;
 		white-space: normal;
 	}
 	
@@ -22,6 +23,8 @@
 		text-align: center;
 		padding: 16px 16px;
 		text-decoration: none;
+		font-family: "Open Sans"; 
+		font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px;
 	}
 	
 	.nav-items .right {
@@ -36,11 +39,11 @@
 		float: right;
 		max-width: 500px;
 		margin-top: 10px;
-		margin-right: 26px;
+		margin-right:26px;
 	}
 	
 	form.search-bar input[type=text] {
-		padding: 10px;
+		padding: 6px;
 		float: left;
 		border: none;
 		font-size: 16px;
@@ -49,10 +52,10 @@
 	form.search-bar button {
 		float: right;
 		padding: 10px;
-		background: #555;
+		background: #5691C8;
 		color: #F7F7FF;
 		font-size: 14px;
-		border: 1px solid #111;
+		border: 1px solid #577399;
 		border-left: none;
 		cursor: pointer;
 	}

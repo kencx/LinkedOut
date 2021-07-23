@@ -13,7 +13,7 @@ public class SessionContextListener implements HttpSessionListener {
 	
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		// TODO session should be created at login but is not
+		// TODO session should be created at login but is not sometimes
 		activeSessions++;
 		System.out.println("Session created. Total active sessions: " + activeSessions);
 	}
