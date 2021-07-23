@@ -149,7 +149,7 @@
 				
 				<div class="post-header">
 					<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar"/>
-					<h4>${requestScope.user.firstname} ${requestScope.user.lastname}</h4>
+					<h4>${post.user.firstname} ${post.user.lastname}</h4>
 					<p class="time">1 m</p> <!-- post time -->
 					<span id="options-menu" style="float:right; margin-top: -50px">...</span>
 				</div>
@@ -183,6 +183,25 @@
 								</div>
 							</div>
 							
+							<!-- modal container for liked users button -->
+							<div id="listOfLikedUsers" class="modal" data-keyboard="false" data-backdrop="static">
+								<div class="modal-container" id="like-modal-container">
+									<h3>Liked Users</h3>
+									
+									<!-- list of liked Users -->
+									<div class="liked-list">
+										<c:forEach var="likedUser" items="${likedUsers}">
+											<div class="like-user-card">
+												<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="liked-user"/>
+												<h4>${likedUser.firstname} ${likedUser.lastname}</h4>
+											</div>
+										</c:forEach>
+									</div>
+									<p></p>
+									<button class="post-button" onclick="document.getElementById('listOfLikedUsers').style.display='none'">Close</button>
+								</div>
+							</div>
+							
 							<!-- post comment text block -->
 							<textarea name="comment-text-box" rows="1" cols="25" placeholder="Post a comment..."></textarea>
 						</form>	
@@ -194,7 +213,7 @@
 							<div class="container comment-card" style="box-shadow:none; border: 1px solid #ccc">
 								<div class="comment-header">	
 									<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="comment"/>
-									<p class="time" style="float:right; margin-top:-5px">1 m</p><h5>${requestScope.user.firstname} ${requestScope.user.lastname}</h5>
+									<p class="time" style="float:right; margin-top:-5px">1 m</p><h5>${comment.user.firstname} ${comment.user.lastname}</h5>
 								</div>
 								<div class="comment-body">
 									<p>${comment.commentBody}</p>
@@ -209,24 +228,7 @@
 		</c:forEach>
 	</div>
 	
-	<!-- modal container for liked users button -->
-	<div id="listOfLikedUsers" class="modal" data-keyboard="false" data-backdrop="static">
-		<div class="modal-container" id="like-modal-container">
-			<h3>Liked Users</h3>
-			
-			<!-- list of liked Users -->
-			<div class="liked-list">
-				<c:forEach var="likedUser" items="${likedUsers}">
-					<div class="like-user-card">
-						<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="liked-user"/>
-						<h4>${requestScope.user.firstname} ${requestScope.user.lastname}</h4>
-					</div>
-				</c:forEach>
-			</div>
-			
-			<button class="post-button" onclick="document.getElementById('listOfLikedUsers').style.display='none'">Close</button>
-		</div>
-	</div>
+	
 	
 </body>
 
