@@ -26,11 +26,22 @@
 				<p class="error-message"><c:out value='${errorMessage}'/></p>
 			</c:if>
 			
-			<input type="text" placeholder="First Name" name="firstname"/>		
-			<input type="text" placeholder="Last Name" name="lastname"/>		
-			<input type="text" placeholder="Username" name="username"/>		
-			<input type="password" placeholder="Password" name="password"/>
-			<input type="password" placeholder="Confirm Password" name="confirmPassword"/>
+			<input type="text" placeholder="First Name" name="firstname" required/>		
+			<input type="text" placeholder="Last Name" name="lastname" required/>		
+			
+			<input type="text" placeholder="Username" name="username" 
+				required pattern="^[A-Za-z0-9]{5,}$"
+				oninvalid="this.setCustomValidity('Username must be more than 5 characters')" oninput="this.setCustomValidity('')"
+			/>		
+			
+			<input type="password" placeholder="Password" name="password"
+				required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*.]).{8,}$"
+				oninvalid="this.setCustomValidity('Password must be at least 8 characters with at least 1 capital letter, number and !@#$%^&*')" oninput="this.setCustomValidity('')"
+			/>
+			<input type="password" placeholder="Confirm Password" name="confirmPassword" 
+				required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*.]).{8,}$"
+				oninvalid="this.setCustomValidity('Password must be at least 8 characters with at least 1 capital letter, number and !@#$%^&*')" oninput="this.setCustomValidity('')"
+			/>
 
 			<button>create account</button>
 		</form>		

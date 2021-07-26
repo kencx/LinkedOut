@@ -13,7 +13,6 @@ public class CommentDAO extends ObjectDAO<Comment> {
 		super(emf);
 	}
 
-
 	public void updateCommentBody(int id, String commentBody) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
@@ -24,7 +23,6 @@ public class CommentDAO extends ObjectDAO<Comment> {
 		et.commit();
 		em.close();		
 	}
-
 
 	@Override
 	protected Class<Comment> getEntityClass() {

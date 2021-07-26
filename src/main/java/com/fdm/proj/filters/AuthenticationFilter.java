@@ -31,10 +31,10 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 		
 		boolean authenticated = false;
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(false);
 		Integer currentUserId = (Integer) session.getAttribute("currentUserId");
 
-		if (currentUserId != null) {
+		if (currentUserId != null && session != null) {
 			authenticated = true;
 		}
 		

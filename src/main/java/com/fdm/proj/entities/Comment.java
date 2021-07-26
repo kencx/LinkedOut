@@ -1,6 +1,8 @@
 package com.fdm.proj.entities;
 
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Comment class defines all attributes of a Comment entity.
+ * This class represents the comment entity.
  * Each comment must have 1 User attribute that corresponds to its author and 1 Post attribute that corresponds to its parent post.
  * 
  * @author Kenneth
@@ -26,6 +28,7 @@ public class Comment {
 	private int commentId;
 	
 	private String commentBody;
+	private Date commentTime; // TODO time of comment
 		
 	@ManyToOne
 	@JoinColumn(name="fk_UserId")
@@ -36,12 +39,15 @@ public class Comment {
 	private Post post;
 
 	
-	public Comment() {
-		
-	}
+	public Comment() {}
 	
 	public Comment(String commentBody) {
 		this.commentBody = commentBody;
+	}
+	
+	public Comment(String commentBody, Date time) {
+		this.commentBody = commentBody;
+		this.commentTime = time;
 	}
 	
 	public int getCommentId() {
@@ -54,6 +60,14 @@ public class Comment {
 
 	public void setCommentBody(String commentBody) {
 		this.commentBody = commentBody;
+	}
+
+	public Date getCommentTime() {
+		return commentTime;
+	}
+
+	public void setCommentTime(Date commentTime) {
+		this.commentTime = commentTime;
 	}
 
 	public User getUser() {

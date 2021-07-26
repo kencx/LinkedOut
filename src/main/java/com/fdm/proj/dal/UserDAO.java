@@ -53,6 +53,8 @@ public class UserDAO extends ObjectDAO<User> {
 		return null;
 	}
 	
+	// TODO add findByEmail, firstname
+	
 	@Override
 	protected Class<User> getEntityClass() {
 		return User.class;

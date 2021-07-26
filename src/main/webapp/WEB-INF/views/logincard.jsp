@@ -26,8 +26,8 @@
 				<p class="error-message"><c:out value='${errorMessage}'/></p>
 			</c:if>
 		
-			<input type="text" placeholder="Username" name="username"/>
-			<input type="password" placeholder="Password" name="password"/>
+			<input type="text" placeholder="Username" name="username" required />
+			<input type="password" placeholder="Password" name="password" required/>
 			<button>login</button>
 			
 			<p class="message" align="right"><a href="recovery">Forget password?</a></p>

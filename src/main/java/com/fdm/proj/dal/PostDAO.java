@@ -1,11 +1,9 @@
 package com.fdm.proj.dal;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
 import com.fdm.proj.entities.Post;
-import com.fdm.proj.entities.User;
 
 
 public class PostDAO extends ObjectDAO<Post> {

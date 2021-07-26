@@ -1,4 +1,4 @@
-package com.fdm.proj.runner;
+package com.fdm.proj.dal;
 
 import java.util.List;
 
@@ -10,6 +10,13 @@ import com.fdm.proj.dal.UserDAO;
 import com.fdm.proj.entities.Post;
 import com.fdm.proj.entities.User;
 
+/**
+ * This class represents a test for all DAO classes in the main method. 
+ * It can be ran as a normal Java application.
+ * This ensures all basic commands are running as planned.
+ * @author Kenneth
+ *
+ */
 
 public class Runner {
 

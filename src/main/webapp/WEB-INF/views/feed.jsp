@@ -116,6 +116,7 @@
 <meta charset="ISO-8859-1">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
 	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+	
 	<title>Insert title here</title>
 </head>
 
@@ -125,18 +126,21 @@
 	<div class="feed">
 				
 		<!-- post status text box block -->
-		<div class="post-text-box">
-			<div class="header" id="text-box">	
+		<div class="container welcome-container">
+
+			<div class="color-margin" id="text-box">	
 				<p></p>
 			</div>	
-			<div class="text-box">
-				<div class="greeting">
-					<h3>Welcome ${requestScope.user.firstname} ${requestScope.user.lastname}!</h3>
-					<span id="options-menu">...</span>
+			
+			<div>
+				<div class="welcome-header">
+					<h3>Welcome Lorem Ipsum!</h3>
+					<button id="option-menu">...</button>
 				</div>
+
 				<div>
-					<form method="POST">
-						<textarea name="post-text-box" rows="2" placeholder="Tell us about your day..."></textarea>
+					<form method="POST" action="homefeed">
+						<textarea id="textarea" name="post-text-box" rows="2" placeholder="Something to share...?"></textarea>
 						<button class="post-button" type="submit">Post</button>
 					</form>	
 				</div>
@@ -150,7 +154,8 @@
 				<div class="post-header">
 					<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar"/>
 					<h4>${post.user.firstname} ${post.user.lastname}</h4>
-					<p class="time">1 m</p> <!-- post time -->
+					<p class="time">${post.user.occupation} | ${post.user.location}</p>
+				<!-- 	<p class="time">1 m</p> post time -->
 					<span id="options-menu" style="float:right; margin-top: -50px">...</span>
 				</div>
 				
@@ -232,7 +237,7 @@
 	
 </body>
 
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/submit-textarea.js"></script>  
 <script>
 	// Get the modal
 	var modal = document.getElementById('listOfLikedUsers');
@@ -244,4 +249,5 @@
 	  }
 	}
 </script>
+
 </html>

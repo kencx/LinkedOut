@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * This class represents the post entity.
  * Post class defines all attributes of a Post entity.
  * <p>
  * Each post must have one User attribute which corresponds to its author.
@@ -42,11 +43,9 @@ public class Post {
 	private String body;
 	private Date time; // TODO format time to String
 	
-
 	@ManyToOne
 	@JoinColumn(name="fk_userId")
 	private User user;
-	
 	
 	@OneToMany(mappedBy="post", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<Comment> comments = new ArrayList<>();
@@ -64,14 +63,16 @@ public class Post {
 	private Set<Tag> tags = new HashSet<>();
 	
 	
-	public Post() {
-		
-	}
+	public Post() {}
 	
 	public Post(String body) {
 		this.body = body;
 	}
 	
+	public Post(String body, Date time) {
+		this.body = body;
+		this.time = time;
+	}
 	
 	public int getPostId() {
 		return postId;

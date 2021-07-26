@@ -32,7 +32,7 @@ public class LoginCommand extends Command {
 		if(user != null) {
 		
 			INFO.info("Login success!");
-			HttpSession session = req.getSession(false);
+			HttpSession session = req.getSession();
 			session.setAttribute("currentUserId", user.getUserId());
 			return "homefeed";
 			

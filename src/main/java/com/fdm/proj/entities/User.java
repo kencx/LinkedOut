@@ -20,14 +20,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * User class defines all attributes of a User account and actions that users can perform such as:
+ * This class represents the user entity. It defines all attributes of a user account and actions that users can perform.
+ * <br>
+ * Each user can perform the following:
  * <ul>
- * 	<li>Creation and deletion of posts</li>
- * 	<li>Creation and deletion of comments</li>
- * 	<li>Liking and unliking posts</li>
+ * 	<li>Create posts</li>
+ * 	<li>Create comments on posts</li>
+ * 	<li>Like and unlike posts</li>
  * </ul>
- * Each user has a collection of posts created by them, comments written by them and posts liked by them.
- * Each user can create multiple posts and comments, and like multiple posts.
+ * These interactions add the respective entities into their mapped collections to be updated into the database.
+
  * 
  * @author Kenneth
  *
@@ -46,9 +48,14 @@ public class User {
 	private String password;
 	private String firstname;
 	private String lastname;
+	private String email;
 	private String location;
 	private String occupation;
-
+	
+	// TODO add more user attributes
+	private String bio;
+	private String avatarUrl;
+	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<Post> createdPosts = new ArrayList<>();
 	
@@ -62,17 +69,25 @@ public class User {
 		)
 	private Set<Post> likedPosts = new HashSet<>();
 	
+	// Constructors
 	
-	public User() {
-		
-	}
+	public User() {}
 	
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
 	
+	public User(String username, String password, String firstname, String lastname) {
+		this.username = username;
+		this.password = password;
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
 	
+	
+	// Getters and Setters
+
 	public int getUserId() {
 		return userId;
 	}
@@ -109,7 +124,14 @@ public class User {
 		this.lastname = lastname;
 	}
 
-	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getLocation() {
 		return location;
 	}
@@ -193,4 +215,21 @@ public class User {
 			post.removeUserFromLiked(this);
 		}
 	}
+	
+	// TODO refactor this
+	@Override
+	public boolean equals(Object other) {
+		Integer userId = (Integer) this.userId;
+		if ((other instanceof User) && (userId != null)) {
+			return userId.equals(((User) other).userId);
+		} else {
+			return other == this;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("User[d=%d, username=%s, firstname=%s, lastname=%s]", userId, username, firstname, lastname);
+	}
+	
 }

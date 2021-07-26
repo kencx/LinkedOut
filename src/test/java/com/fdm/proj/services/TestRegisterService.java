@@ -83,7 +83,7 @@ public class TestRegisterService {
 		username = "abc";
 		password = "Passw0rd@";
 		confirmPassword = "Passw0rd@";
-		String expectedMessage = "Username must have 5 to 30 characters with letters and numbers!";
+		String expectedMessage = "Username must be more than 5 characters!";
 		
 		when(userDAO.findByUsername(username)).thenReturn(user);
 		
@@ -97,7 +97,7 @@ public class TestRegisterService {
 		username = "johnAdams";
 		password = "password";
 		confirmPassword = "password";
-		String expectedMessage = "Password must be between 8-20 characters with letters, numbers and symbols";
+		String expectedMessage = "Password must be at least 8 characters with at least 1 capital letter, number and !@#$%^&*";
 		
 		when(userDAO.findByUsername(username)).thenReturn(user);
 		

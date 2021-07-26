@@ -16,44 +16,42 @@ public class RegisterService {
 
 	public boolean registerUser(String username, String password, String confirmPassword, String firstname, String lastname) {
 		
-		String usernameRegex = "^[A-Za-z]\\w{5,29}$";
-		String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,20}$";
-		boolean status = false;
+		String usernameRegex = "^[A-Za-z0-9]{5,}$";
+		String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*.]).{8,}$";
+		boolean successful = false;
 		
 		if (username == null || password == null || confirmPassword == null) {
 			errorMessage = "Required fields are empty!";
-			return status;
+			return successful;
 			
 		} else if (!password.equals(confirmPassword)) {
 			errorMessage = "Passwords do not match!";
-			return status;
+			return successful;
 			
 		} else if (duplicateUsernameExists(username)) {
 			errorMessage = "Username already exists!";
-			return status;
+			return successful;
 			
 		} else if (!username.matches(usernameRegex)) {
-			errorMessage = "Username must have 5 to 30 characters with letters and numbers!";
-			return status;
+			errorMessage = "Username must be more than 5 characters!";
+			return successful;
 			
 		} else if (!password.matches(passwordRegex)) {
-			errorMessage = "Password must be between 8-20 characters with letters, numbers and symbols";
-			return status;
+			errorMessage = "Password must be at least 8 characters with at least 1 capital letter, number and !@#$%^&*";
+			return successful;
 			
 		} else {
 			errorMessage = null;
-			status = true;
+			successful = true;
 		}
 		
-		if (status) {
-			User newUser = new User(username, password);
-			newUser.setFirstname(firstname);
-			newUser.setLastname(lastname);
-			userDAO.add(newUser);
-			return status;
+		if (successful) {
+			User user = new User(username, password, firstname, lastname);
+			userDAO.add(user);
+			return successful;
 			
 		} else {
-			return status;
+			return successful;
 		}
 	}
 	

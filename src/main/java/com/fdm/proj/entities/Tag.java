@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
- * Tag class defines all attributes of a Tag entity.
+ * This class represents the tag entity.
  * Each tag can have multiple posts as a collection of posts that have the same tag.
  * 
  * @author Kenneth
