@@ -1,5 +1,6 @@
 package com.fdm.proj.service;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,17 @@ public class HomeFeedService extends FeedService {
 		super(userDAO, postDAO);
 	}
 
+	/**
+	 * This service method returns all posts by all users.
+	 * All posts are sorted chronologically from most recent to least.
+	 */
 	@Override
 	public List<Post> returnFeedPosts() {
 		List<Post> posts = postDAO.findAll();
+		
+		Comparator<Post> sortByTimePassed = (p1, p2) -> Long.compare(p1.getTimePassedInMilli(), p2.getTimePassedInMilli());
+		posts.sort(sortByTimePassed);
+		
 		return posts;
 	}
 }

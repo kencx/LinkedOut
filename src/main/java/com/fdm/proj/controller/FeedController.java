@@ -1,5 +1,7 @@
 package com.fdm.proj.controller;
 
+import java.time.Instant;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 
 import com.fdm.proj.model.Comment;
 import com.fdm.proj.model.Post;
+import com.fdm.proj.model.Tag;
 import com.fdm.proj.model.User;
 import com.fdm.proj.service.FeedService;
 import com.fdm.proj.service.ProfileFeedService;
@@ -62,35 +65,29 @@ public abstract class FeedController {
 	}
 	
 	
-	public HashMap<Integer, List<Comment>> loadComments(List<Post> posts) {
-		HashMap<Integer, List<Comment>> commentMap = new HashMap<>();
-		for (Post p : posts) {			
-			int postID = p.getPostId();
-			List<Comment> comments = feedService.returnAllPostComments(p);
-			commentMap.put(postID, comments);
-		}
-		return commentMap;
-	}
-	
-	
 	// user actions
 	
-	public void writePost(String postText) {
+	public void writePost(String postText, Instant timeCreated, String tagName) {
+		
+		Tag tag = null;
+		if (tagName != null && tagName != "") {
+			tag = new Tag(tagName);
+		}
 
-		if (postText != null && postText != "") {
+		if (postText != null && postText != "" && timeCreated != null) {
 			
-			feedService.userCreatePost(user, postText);
-			INFO.info("New Post created by " + user.getUsername());		
+			feedService.userCreatePost(user, postText, timeCreated, tag);
+			INFO.info("New Post created by " + user.getUsername());
 		}
 	}
 
-	public void writeComment(String commentText, String commentButton, String modifiedPostId) {
+	public void writeComment(String commentText, String commentButton, String modifiedPostId, Instant timeCreated) {
 
 		// post must exist, comment box must not be empty and comment button must be clicked
 		if (modifiedPostId != null && commentText != null && commentText != "" && commentButton != null) {
 
 			Post commentedPost = feedService.returnPost(Integer.parseInt(modifiedPostId));			
-			feedService.userCreateComment(user, commentedPost, commentText);
+			feedService.userCreateComment(user, commentedPost, commentText, timeCreated);
 			INFO.info("New Comment created by " + user.getUsername() + " on post " + commentedPost.getPostId());			
 		}	
 	}

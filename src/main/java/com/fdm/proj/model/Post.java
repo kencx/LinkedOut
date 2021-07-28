@@ -1,7 +1,8 @@
 package com.fdm.proj.model;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,8 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+import com.fdm.proj.helper.DateTimeHelper;
+
 /**
  * This class represents the post entity.
  * Post class defines all attributes of a Post entity.
@@ -37,14 +40,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name="POSTS")
-public class Post {
+public class Post implements DateTimeHelper {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int postId;
 			
 	private String body;
-	private Date time; // TODO format time to String
+	private Instant timeCreated;
 	
 	@ManyToOne
 	@JoinColumn(name="fk_userId")
@@ -74,9 +77,15 @@ public class Post {
 		this.body = body;
 	}
 	
-	public Post(String body, Date time) {
+	public Post(String body, Instant time) {
 		this.body = body;
-		this.time = time;
+		this.timeCreated = time;
+	}
+	
+	public Post(String body, Instant time, Tag tag) {
+		this.body = body;
+		this.timeCreated = time;
+		addTag(tag);
 	}
 	
 	
@@ -94,12 +103,12 @@ public class Post {
 		this.body = body;
 	}	
 	
-	public Date getTime() {
-		return time;
+	public Instant getTimeCreated() {
+		return timeCreated;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+	public void setTimeCreated(Instant time) {
+		this.timeCreated = time;
 	}
 	
 	public User getUser() {
@@ -113,7 +122,28 @@ public class Post {
 	public List<Comment> getComments() {
 		return comments;
 	}
+	
+	public Set<User> getUsersWhoLiked() {
+		return usersWhoLiked;
+	}
 
+	public Set<Tag> getTags() {
+		return tags;
+	}
+	
+	public List<Comment> getCommentsSortedByTime() {
+		Comparator<Comment> sortByCommentTimePassed = (c1, c2) -> Long.compare(c1.getTimePassedInMilli(), c2.getTimePassedInMilli());
+		this.comments.sort(sortByCommentTimePassed);
+		return comments;
+	}
+	
+	public String getTimePassed() {
+		return DateTimeHelper.timePassed(Instant.now(), this.timeCreated);
+	}
+	
+	public long getTimePassedInMilli() {
+		return DateTimeHelper.timePassedInMillis(Instant.now(), this.timeCreated);
+	}
 	
 	// Entity interactions
 	
@@ -144,10 +174,6 @@ public class Post {
 		}
 	}
 
-	public Set<User> getUsersWhoLiked() {
-		return usersWhoLiked;
-	}
-
 	public void addUserToLiked(User user) {
 		this.usersWhoLiked.add(user);
 	}
@@ -170,10 +196,6 @@ public class Post {
 				iter.remove();
 			}
 		}
-	}
-
-	public Set<Tag> getTags() {
-		return tags;
 	}
 
 	public void addTag(Tag tag) {

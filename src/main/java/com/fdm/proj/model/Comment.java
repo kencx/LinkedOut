@@ -1,7 +1,7 @@
 package com.fdm.proj.model;
 
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
+
+import com.fdm.proj.helper.DateTimeHelper;
 
 /**
  * This class represents the comment entity.
@@ -24,14 +26,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name="COMMENTS")
-public class Comment {
+public class Comment implements DateTimeHelper {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int commentId;
 	
 	private String commentBody;
-	private Date commentTime; // TODO time of comment
+	private Instant timeCreated;
 		
 	@ManyToOne
 	@JoinColumn(name="fk_UserId")
@@ -50,9 +52,9 @@ public class Comment {
 		this.commentBody = commentBody;
 	}
 	
-	public Comment(String commentBody, Date time) {
+	public Comment(String commentBody, Instant time) {
 		this.commentBody = commentBody;
-		this.commentTime = time;
+		this.timeCreated = time;
 	}
 	
 	
@@ -70,12 +72,12 @@ public class Comment {
 		this.commentBody = commentBody;
 	}
 
-	public Date getCommentTime() {
-		return commentTime;
+	public Instant getTimeCreated() {
+		return timeCreated;
 	}
 
-	public void setCommentTime(Date commentTime) {
-		this.commentTime = commentTime;
+	public void setTimeCreated(Instant timeCreated) {
+		this.timeCreated = timeCreated;
 	}
 
 	public User getUser() {
@@ -92,5 +94,13 @@ public class Comment {
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+	
+	public String getTimePassed() {
+		return DateTimeHelper.timePassed(Instant.now(), this.timeCreated);
+	}
+
+	public long getTimePassedInMilli() {
+		return DateTimeHelper.timePassedInMillis(Instant.now(), this.timeCreated);
 	}
 }

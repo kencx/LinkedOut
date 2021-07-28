@@ -1,5 +1,7 @@
 package com.fdm.proj.controller;
 
+import java.time.Instant;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,6 @@ public class HomeFeedController extends FeedController {
 	public String loadFeed(Model model) {
 		
 		model.addAttribute("posts", feedService.returnFeedPosts());
-		model.addAttribute("comments", loadComments(feedService.returnFeedPosts()));
 		return "homefeed";
 	}
 
@@ -39,6 +40,7 @@ public class HomeFeedController extends FeedController {
 	public String performTasks(
 			@RequestParam(required=false) String modifiedPostId,
 			@RequestParam(required=false) String postText,
+			@RequestParam(required=false) String postTag,
 			@RequestParam(required=false) String commentText,
 			@RequestParam(required=false) String commentButton,
 			@RequestParam(required=false) String likeButton) {
@@ -46,8 +48,8 @@ public class HomeFeedController extends FeedController {
 		initializeToUser();
 		
 		// user actions
-		writePost(postText);
-		writeComment(commentText, commentButton, modifiedPostId);		
+		writePost(postText, Instant.now(), postTag);
+		writeComment(commentText, commentButton, modifiedPostId, Instant.now());		
 		likePost(likeButton, modifiedPostId);
 		
 		return "redirect:/homefeed";

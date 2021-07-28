@@ -1,7 +1,6 @@
 package com.fdm.proj.controller;
 
-import java.util.HashMap;
-import java.util.List;
+import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fdm.proj.model.Comment;
-import com.fdm.proj.model.Post;
 import com.fdm.proj.service.ProfileFeedService;
 
 /**
@@ -37,8 +34,6 @@ public class ProfileFeedController extends FeedController {
 		
 		initializeToUser();
 		model.addAttribute("posts", feedService.returnFeedPosts());
-		model.addAttribute("comments", loadComments(feedService.returnFeedPosts()));
-		
 		return "profile";
 	}
 
@@ -47,6 +42,7 @@ public class ProfileFeedController extends FeedController {
 	public String performTasks(HttpServletRequest req, 
 			@RequestParam(required=false) String modifiedPostId, 
 			@RequestParam(required=false) String postText,
+			@RequestParam(required=false) String postTag,
 			@RequestParam(required=false) String commentText, 
 			@RequestParam(required=false) String commentButton, 
 			@RequestParam(required=false) String likeButton) {
@@ -54,8 +50,8 @@ public class ProfileFeedController extends FeedController {
 		initializeToUser();
 		
 		// user actions
-		writePost(postText);
-		writeComment(commentText, modifiedPostId, commentButton);
+		writePost(postText, Instant.now(), postTag);
+		writeComment(commentText, modifiedPostId, commentButton, Instant.now());
 		likePost(likeButton, modifiedPostId);
 		edit(req); // TODO refactor to model attribute
 		

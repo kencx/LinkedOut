@@ -36,6 +36,7 @@
 					<form method="POST" action="homefeed">
 						<textarea id="textarea" name="postText" rows="2" placeholder="Something to share...?"></textarea>
 						<button class="post-button" type="submit">Post</button>
+						<!-- accept tag input -->
 					</form>	
 				</div>
 			</div>
@@ -50,8 +51,8 @@
 					<h4>${post.user.firstname} ${post.user.lastname}</h4>
 					<p id="profile">${post.user.occupation} | ${post.user.location}</p>
 					<button id="option-menu">...</button>
-					<p class="time">2 h</p>
-				</div>		
+					<p class="time">${post.getTimePassed()}</p>
+				</div>
 			
 				<div class="post-body">
 					<p>${post.body}</p>
@@ -109,15 +110,15 @@
 				
 					<!--  comment block -->
 					<div class="post-comments">
-						<c:forEach var="comment" items="${post.comments}">
+						<c:forEach var="comment" items="${post.getCommentsSortedByTime()}">
 							<div class="container comment-container" style="box-shadow:none;border:1px solid #ccc;margin-left: 10px;">
 							
-								<div class="comment-header">	
+								<div class="comment-header">
 									<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="comment"/>
 									<h5>${comment.user.firstname} ${comment.user.lastname}</h5>
 									<p id="profile">${post.user.occupation} | ${post.user.location}</p>
 									<button id="option-menu">...</button>
-									<p class="time">2 h</p>
+									<p class="time">${comment.getTimePassed()}</p>
 								</div>
 								
 								<div class="comment-body">
