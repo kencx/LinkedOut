@@ -65,7 +65,7 @@ public class Config extends WebMvcConfigurerAdapter {
 		HashMap<String, String> properties = new HashMap<>();
 
 		properties.put("hibernate.archive.autodetection", "class, hbm");
-		properties.put("hibernate.show_sql", "true");
+		properties.put("hibernate.show_sql", "false");
 		properties.put("hibernate.format_sql", "true");
 		properties.put("hibernate.use_sql_comments", "true");
 		properties.put("hibernate.hbm2ddl.import_files", "insert-data.sql");

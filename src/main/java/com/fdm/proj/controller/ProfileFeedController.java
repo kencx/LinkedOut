@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fdm.proj.model.Comment;
 import com.fdm.proj.model.Post;
@@ -32,60 +33,44 @@ public class ProfileFeedController extends FeedController {
 		ProfileFeedService feedService = (ProfileFeedService) getFeedService();
 		initUser(session);
 		feedService.setUserId(user.getUserId()); 
-		
-		// get user's posts
-		List<Post> posts = feedService.returnFeedPosts();
+			
+		List<Post> posts = loadPosts();
 		session.setAttribute("posts", posts);
-		
-		// get all comments
-		HashMap<Integer, List<Comment>> commentMap = new HashMap<>();
-		for (Post p : posts) {			
-			int postID = p.getPostId();
-			List<Comment> comments = feedService.returnAllPostComments(p);
-			commentMap.put(postID, comments);
-		}
-		session.setAttribute("comments", commentMap);
+				
+		HashMap<Integer, List<Comment>> comments = loadComments(posts);
+		session.setAttribute("comments", comments);
 		
 		return "profile";
 	}
 
 
-	@Override
 	@RequestMapping(value="/profile", method=RequestMethod.POST)
-	public String performTasks(HttpServletRequest req) {
+	public String performTasks(HttpServletRequest req, HttpSession session, 
+			@RequestParam(required=false) String modifiedPostId, 
+			@RequestParam(required=false) String postText,
+			@RequestParam(required=false) String commentText, 
+			@RequestParam(required=false) String commentButton, 
+			@RequestParam(required=false) String likeButton) {
 		
-		ProfileFeedService feedService = (ProfileFeedService) getFeedService();
-		HttpSession session = req.getSession();
 		initUser(session);
+		ProfileFeedService feedService = (ProfileFeedService) getFeedService();
 		feedService.setUserId(user.getUserId()); 
-		
-		// get user's posts
-		List<Post> posts = feedService.returnFeedPosts();
+				
+		List<Post> posts = loadPosts();
 		session.setAttribute("posts", posts);
+				
+		HashMap<Integer, List<Comment>> comments = loadComments(posts);
+		session.setAttribute("comments", comments);
 		
-		// get all comments
-		HashMap<Integer, List<Comment>> commentMap = new HashMap<>();
-		for (Post p : posts) {			
-			int postID = p.getPostId();
-			List<Comment> comments = feedService.returnAllPostComments(p);
-			commentMap.put(postID, comments);
-		}
-		session.setAttribute("comments", commentMap);
-		
-		// write post
-		writePost(req);
-		
-		// write comment
-		writeComment(req);
-		
-		// like post
-		likePost(req);
-		
-		// edit profile
-		edit(req);
+		// user actions
+		writePost(postText);
+		writeComment(commentText, modifiedPostId, commentButton);
+		likePost(likeButton, modifiedPostId);
+		edit(req); // TODO refactor to model attribute
 		
 		return "redirect:/profile";
 	}
+	
 	
 	public String edit(HttpServletRequest req) {
 		

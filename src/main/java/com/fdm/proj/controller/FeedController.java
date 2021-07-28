@@ -1,5 +1,8 @@
 package com.fdm.proj.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 
+import com.fdm.proj.model.Comment;
 import com.fdm.proj.model.Post;
 import com.fdm.proj.model.User;
 import com.fdm.proj.service.FeedService;
@@ -25,10 +29,7 @@ public abstract class FeedController {
 	}
 	
 	public abstract String loadFeed(HttpSession session);
-	
-	public abstract String performTasks(HttpServletRequest req);
-	
-	
+		
 	public void initUser(HttpSession session) {
 		// set current user instance
 		Integer userId = (Integer) session.getAttribute("currentUserId");
@@ -38,13 +39,28 @@ public abstract class FeedController {
 		}
 		
 		// else throw UserNotFoundException
+	}	
+	
+	
+	// generate feed
+	public List<Post> loadPosts() {
+		return feedService.returnFeedPosts();
 	}
 	
-	public void writePost(HttpServletRequest req) {
+	public HashMap<Integer, List<Comment>> loadComments(List<Post> posts) {
+		HashMap<Integer, List<Comment>> commentMap = new HashMap<>();
+		for (Post p : posts) {			
+			int postID = p.getPostId();
+			List<Comment> comments = feedService.returnAllPostComments(p);
+			commentMap.put(postID, comments);
+		}
+		return commentMap;
+	}
+	
+	
+	// user actions
+	public void writePost(String postText) {
 
-		// only when text box form is not empty
-		String postText = req.getParameter("post-text-box");
-		
 		if (postText != null && postText != "") {
 			
 			feedService.userCreatePost(user, postText);
@@ -52,28 +68,22 @@ public abstract class FeedController {
 		}
 	}
 
-	public void writeComment(HttpServletRequest req) {
+	public void writeComment(String commentText, String commentButton, String modifiedPostId) {
 
-		// only when text box form is not empty and post exists
-		String commentedPostId = req.getParameter("changedPost"); 
-		String commentText = req.getParameter("comment-text-box");
-		
-		if (commentedPostId != null && commentText != null && commentText != "" && req.getParameter("comment-button") != null) {
+		// post must exist, comment box must not be empty and comment button must be clicked
+		if (modifiedPostId != null && commentText != null && commentText != "" && commentButton != null) {
 
-			Post commentedPost = feedService.returnPost(Integer.parseInt(commentedPostId));			
+			Post commentedPost = feedService.returnPost(Integer.parseInt(modifiedPostId));			
 			feedService.userCreateComment(user, commentedPost, commentText);
 			INFO.info("New Comment created by " + user.getUsername() + " on post " + commentedPost.getPostId());			
 		}	
 	}
 
-	public void likePost(HttpServletRequest req) {
+	public void likePost(String likeButton, String modifiedPostId) {
 
-		String likedPostId = req.getParameter("changedPost"); 
-		String liked = req.getParameter("like-button"); 
-		
-		if (likedPostId != null && liked != null && req.getParameter("like-button") != null) {
+		if (modifiedPostId != null && likeButton != null) {
 			
-			Post likedPost = feedService.returnPost(Integer.parseInt(likedPostId));
+			Post likedPost = feedService.returnPost(Integer.parseInt(modifiedPostId));
 			feedService.likePost(user, likedPost);
 			INFO.info(user.getUsername() + " liked post " + likedPost.getPostId() + " for " + likedPost.getUsersWhoLiked().size() + " likes.");
 		}

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fdm.proj.model.Comment;
 import com.fdm.proj.model.Post;
@@ -27,51 +28,36 @@ public class HomeFeedController extends FeedController {
 	@RequestMapping(value="/homefeed", method=RequestMethod.GET)
 	public String loadFeed(HttpSession session) {
 		
-		// load all posts
-		List<Post> posts = feedService.returnFeedPosts();
+		List<Post> posts = loadPosts();
 		session.setAttribute("posts", posts);
-		
-		// load all comments
-		HashMap<Integer, List<Comment>> commentMap = new HashMap<>();
-		for (Post p : posts) {			
-			int postID = p.getPostId();
-			List<Comment> comments = feedService.returnAllPostComments(p);
-			commentMap.put(postID, comments);
-		}
-		session.setAttribute("comments", commentMap);
+				
+		HashMap<Integer, List<Comment>> comments = loadComments(posts);
+		session.setAttribute("comments", comments);
 				
 		return "homefeed";
 	}
 
 
-	@Override
 	@RequestMapping(value="/homefeed", method=RequestMethod.POST)
-	public String performTasks(HttpServletRequest req) {
+	public String performTasks(HttpSession session, 
+			@RequestParam(required=false) String modifiedPostId,
+			@RequestParam(required=false) String postText,
+			@RequestParam(required=false) String commentText,
+			@RequestParam(required=false) String commentButton,
+			@RequestParam(required=false) String likeButton) {
 		
-		HttpSession session = req.getSession();
 		initUser(session);
-		
-		// load all posts
-			List<Post> posts = feedService.returnFeedPosts();
-			session.setAttribute("posts", posts);
+	
+		List<Post> posts = loadPosts();
+		session.setAttribute("posts", posts);
 				
-		// load all comments
-		HashMap<Integer, List<Comment>> commentMap = new HashMap<>();
-		for (Post p : posts) {			
-			int postID = p.getPostId();
-			List<Comment> comments = feedService.returnAllPostComments(p);
-			commentMap.put(postID, comments);
-		}
-		session.setAttribute("comments", commentMap);
+		HashMap<Integer, List<Comment>> comments = loadComments(posts);
+		session.setAttribute("comments", comments);
 		
-		// write post
-		writePost(req);
-		
-		// write comment
-		writeComment(req);
-		
-		// like post
-		likePost(req);
+		// user actions
+		writePost(postText);
+		writeComment(commentText, commentButton, modifiedPostId);		
+		likePost(likeButton, modifiedPostId);
 		
 		return "redirect:/homefeed";
 	}

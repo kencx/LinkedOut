@@ -140,7 +140,7 @@
 
 				<div>
 					<form method="POST" action="homefeed">
-						<textarea id="textarea" name="post-text-box" rows="2" placeholder="Something to share...?"></textarea>
+						<textarea id="textarea" name="postText" rows="2" placeholder="Something to share...?"></textarea>
 						<button class="post-button" type="submit">Post</button>
 					</form>	
 				</div>
@@ -172,13 +172,15 @@
 					
 					<div class="post-comment-box">
 						<form method="POST">
-							<input type="hidden" value="${post.postId}" name="changedPost">
+						
+							<!-- Save modified post Id -->
+							<input type="hidden" value="${post.postId}" name="modifiedPostId">
 							
 							<div class="interaction-bar">
 								
-								<!-- if user liked already, change to unlike button -->
-								<button class="post-button" type="submit" name="like-button" value="liked">Like</button>
-								<button class="post-button" type="submit" name="comment-button">Comment</button>
+								<!-- TODO: if user liked already, change to unlike button -->
+								<button class="post-button" type="submit" name="likeButton" value="clicked">Like</button>
+								<button class="post-button" type="submit" name="commentButton" value="clicked">Comment</button>
 
 								<div>
 									<c:set value="${post.usersWhoLiked}" var="likedUsers"/> 
@@ -208,7 +210,7 @@
 							</div>
 							
 							<!-- post comment text block -->
-							<textarea name="comment-text-box" rows="1" cols="25" placeholder="Post a comment..."></textarea>
+							<textarea name="commentText" rows="1" cols="25" placeholder="Post a comment..."></textarea>
 						</form>	
 					</div>
 				
