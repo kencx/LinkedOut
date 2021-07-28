@@ -1,11 +1,11 @@
 package com.fdm.proj.dal;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.anyString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.fdm.proj.entities.User;
+import com.fdm.proj.model.User;
 
 
 public class TestUserDAO {
@@ -37,7 +37,7 @@ public class TestUserDAO {
 
 	@InjectMocks
 	private UserDAO userDAO;
-	private User u1;
+//	private User u1;
 	
 	
 	@Before
@@ -51,7 +51,7 @@ public class TestUserDAO {
 		doNothing().when(et).commit();
 		doNothing().when(em).close();
 		
-		u1 = new User("johnAdams", "password1");
+//		u1 = new User("johnAdams", "password1");
 	}
 	
 	

@@ -7,7 +7,7 @@
 <head>
 
 <meta charset="ISO-8859-1">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/details.css" /> 
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/details.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
 	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 	<title>Insert title here</title>

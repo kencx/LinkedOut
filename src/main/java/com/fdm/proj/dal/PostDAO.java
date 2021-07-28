@@ -3,11 +3,15 @@ package com.fdm.proj.dal;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-import com.fdm.proj.entities.Post;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import com.fdm.proj.model.Post;
 
+@Repository
 public class PostDAO extends ObjectDAO<Post> {
 
+	@Autowired
 	public PostDAO(EntityManagerFactory emf) {
 		super(emf);
 	}	

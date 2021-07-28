@@ -5,11 +5,15 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-import com.fdm.proj.entities.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import com.fdm.proj.model.Tag;
 
+@Repository
 public class TagDAO extends ObjectDAO<Tag> {
 
+	@Autowired
 	public TagDAO(EntityManagerFactory emf) {
 		super(emf);
 	}

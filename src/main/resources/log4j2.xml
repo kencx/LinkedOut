@@ -16,13 +16,15 @@
    
 
     <Loggers>
-        <Root level="info"/>
+        <Root level="error">
+        	<AppenderRef ref="STDOUTAppender" />
+        </Root>
         
-        <Logger name="com.fdm.proj.commands.Error" level="error" >
+        <Logger name="com.fdm.proj" level="error" >
             <AppenderRef ref="STDOUTAppender" />
         </Logger>
 
-        <Logger name="com.fdm.proj.commands.Info" level="info" >
+        <Logger name="com.fdm.proj" level="info" >
             <AppenderRef ref="STDOUTAppender" />
         </Logger>
 

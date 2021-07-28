@@ -5,10 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.fdm.proj.dal.PostDAO;
-import com.fdm.proj.dal.UserDAO;
-import com.fdm.proj.entities.Post;
-import com.fdm.proj.entities.User;
+import com.fdm.proj.model.Post;
+import com.fdm.proj.model.User;
 
 /**
  * This class represents a test for all DAO classes in the main method. 

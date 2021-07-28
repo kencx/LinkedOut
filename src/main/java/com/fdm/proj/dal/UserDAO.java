@@ -1,17 +1,20 @@
 package com.fdm.proj.dal;
 
-
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import com.fdm.proj.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import com.fdm.proj.model.User;
 
+@Repository
 public class UserDAO extends ObjectDAO<User> {
 
+	@Autowired
 	public UserDAO(EntityManagerFactory emf) {
 		super(emf);
 	}

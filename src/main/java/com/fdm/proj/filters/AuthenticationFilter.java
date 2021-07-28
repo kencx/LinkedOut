@@ -14,9 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.fdm.proj.controller.LoginController;
+
 
 @WebFilter(urlPatterns = {"/homefeed", "/profile", "/search", "/logout"})
 public class AuthenticationFilter implements Filter {
+
+	private static final Logger ERROR = LogManager.getLogger(AuthenticationFilter.class);
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -39,10 +46,9 @@ public class AuthenticationFilter implements Filter {
 		}
 		
 		if (authenticated) {
-			// TODO log user authenticated
 			chain.doFilter(request, response);
 		} else {
-			// TODO log user authenticated failed, redirecting back to login
+			ERROR.error("Authentication failed, redirecting to login.");
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}	
 	}

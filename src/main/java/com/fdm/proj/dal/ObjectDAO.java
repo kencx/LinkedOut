@@ -7,6 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 
 /**
  * Abstract Database Access Object that can be extended by a child DAO.
@@ -16,6 +19,7 @@ import javax.persistence.TypedQuery;
  *
  * @param <T> Corresponding object of the child DAO
  */
+@Repository
 public abstract class ObjectDAO<T> {
 	
 	protected EntityManagerFactory emf;
@@ -26,9 +30,9 @@ public abstract class ObjectDAO<T> {
 	 * Constructor for the DAO object.
 	 * @param emf EntityManagerFactory to be injected
 	 */
+	@Autowired
 	public ObjectDAO(EntityManagerFactory emf) {
 		this.emf = emf;
-		
 	}
 	
 	

@@ -21,7 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.fdm.proj.entities.User;
+import com.fdm.proj.model.User;
 
 
 public class TestObjectDAO {
