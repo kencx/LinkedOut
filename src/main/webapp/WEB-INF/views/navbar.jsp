@@ -26,7 +26,7 @@
 			<a href="#" title="Notifications"><i class="fa fa-bell"></i></a>
 			<a href="logout" title="Logout"><i class="fa fa-power-off"></i></a>
 
-			<form class="search-bar" action="search" method="GET">
+			<form class="search-bar" action="search" method="POST">
 				<button type="submit">
 					<i class="fa fa-search"></i>
 				</button>

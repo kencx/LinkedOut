@@ -1,7 +1,6 @@
 package com.fdm.proj.service;
 
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -31,11 +30,11 @@ public abstract class FeedService {
 		return user;
 	}
 	
-	public void userCreatePost(User user, String postBody, Instant timeCreated, Tag tag) {
+	public void userCreatePost(User user, String postBody, Instant timeCreated, List<Tag> tags) {
 		Post post;
 		
-		if (tag != null) {
-			post = new Post(postBody, timeCreated, tag);
+		if (tags != null) {
+			post = new Post(postBody, timeCreated, tags);
 		} else {
 			post = new Post(postBody, timeCreated);	
 		}

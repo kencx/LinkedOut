@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ public class Tag {
 	
 	private String tagName;
 	
-	@ManyToMany(mappedBy="tags", cascade={CascadeType.MERGE, CascadeType.REFRESH})
+	@ManyToMany(mappedBy="tags", cascade={CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
 	private Set<Post> posts = new HashSet<>();
 	
 	

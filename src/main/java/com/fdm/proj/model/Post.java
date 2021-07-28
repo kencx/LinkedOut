@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -61,7 +62,7 @@ public class Post implements DateTimeHelper {
 	private Set<User> usersWhoLiked = new HashSet<>();
 	
 	
-	@ManyToMany(cascade={CascadeType.MERGE, CascadeType.REFRESH})
+	@ManyToMany(cascade={CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
 	@JoinTable(name="POSTS_TAGS", 
 		joinColumns=@JoinColumn(name="fk_postId"), 
 		inverseJoinColumns=@JoinColumn(name="fk_tagId")
@@ -82,10 +83,13 @@ public class Post implements DateTimeHelper {
 		this.timeCreated = time;
 	}
 	
-	public Post(String body, Instant time, Tag tag) {
+	public Post(String body, Instant time, List<Tag> tags) {
 		this.body = body;
 		this.timeCreated = time;
-		addTag(tag);
+		
+		for (Tag t : tags) {
+			addTag(t);
+		}
 	}
 	
 	
@@ -135,6 +139,12 @@ public class Post implements DateTimeHelper {
 		Comparator<Comment> sortByCommentTimePassed = (c1, c2) -> Long.compare(c1.getTimePassedInMilli(), c2.getTimePassedInMilli());
 		this.comments.sort(sortByCommentTimePassed);
 		return comments;
+	}
+	
+	public Set<String> printTags() {
+		Set<String> tagNames = tags.stream().map(Tag::getTagName).collect(Collectors.toSet());
+//		return String.join(", ", tagNames);
+		return tagNames;
 	}
 	
 	public String getTimePassed() {

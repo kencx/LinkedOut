@@ -54,10 +54,8 @@
 	<div class="scroll-item scroll-container">
 		
 		<div class="card container profile-container">
-			<div class="header">
-				<h1></h1>
-			</div>
-			
+		
+		
 			<div style="margin: 20px 20px">
 				<h1><a href="profile">My Profile</a></h1>
 				<c:set value="${requestScope.user}" var="user"></c:set>

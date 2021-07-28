@@ -1,10 +1,11 @@
 package com.fdm.proj.controller;
 
 import java.time.Instant;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import com.fdm.proj.model.Comment;
 import com.fdm.proj.model.Post;
 import com.fdm.proj.model.Tag;
 import com.fdm.proj.model.User;
@@ -31,13 +31,13 @@ public abstract class FeedController {
 	protected static final Logger INFO = LogManager.getLogger(FeedController.class);
 	protected static final Logger ERROR = LogManager.getLogger(FeedController.class);
 	
-	protected HttpSession session;
+	protected HttpServletRequest req;
 	protected FeedService feedService;
 	protected User user;
 	
-	public FeedController(FeedService feedService, HttpSession session) {
+	public FeedController(FeedService feedService, HttpServletRequest req) {
 		this.feedService = feedService;
-		this.session = session;
+		this.req = req;
 	}
 	
 	/**
@@ -47,36 +47,56 @@ public abstract class FeedController {
 	 */
 	public abstract String loadFeed(Model model);
 		
+	
+	/**
+	 * Initializes the key User attributes in FeedController and ProfileFeedService.
+	 * Sets user attribute to OWN user account.
+	 */
 	public void initializeToUser() {
 		
-		// set current user instance
-		Integer userId = (Integer) session.getAttribute("currentUserId");
-
-		if (userId != null) {
-			user = feedService.returnUser(userId);
-		}
+		Integer userId = (Integer) req.getSession().getAttribute("currentUserId");		
+		user = feedService.returnUser(userId);
+		req.setAttribute("user", user);
 		
-		// TODO else throw usernotfoundexception, kick back to login?
+		// set specific user profile in ProfileFeedService
+		if (this instanceof ProfileFeedController) {
+			ProfileFeedService feedService = (ProfileFeedService) getFeedService();
+			feedService.setUser(user);
+		}
+	}
+	
+	/**
+	 * Initializes the key User attributes in ProfileFeedService. This method is necessary to load other user profiles.
+	 * Sets user attributes to OTHER users.
+	 * @param user Other user of interest
+	 */
+	public void initializeToUser(User user) {
+		req.setAttribute("user", user);
 		
 		if (this instanceof ProfileFeedController) {
 			ProfileFeedService feedService = (ProfileFeedService) getFeedService();
-			feedService.setUserId(user.getUserId());
+			feedService.setUser(user);
 		}
 	}
 	
 	
 	// user actions
 	
-	public void writePost(String postText, Instant timeCreated, String tagName) {
+	public void writePost(String postText, Instant timeCreated, String tagNames) {
 		
-		Tag tag = null;
-		if (tagName != null && tagName != "") {
-			tag = new Tag(tagName);
+		List<Tag> tags = new ArrayList<>();
+		if (tagNames != null && tagNames != "") {
+			String[] tagNameArray = tagNames.split(",");
+
+			for (String name : Arrays.asList(tagNameArray)) {
+				Tag tag = new Tag(name);
+				tags.add(tag);
+			}
 		}
 
 		if (postText != null && postText != "" && timeCreated != null) {
 			
-			feedService.userCreatePost(user, postText, timeCreated, tag);
+			feedService.userCreatePost(user, postText, timeCreated, tags);
 			INFO.info("New Post created by " + user.getUsername());
 		}
 	}

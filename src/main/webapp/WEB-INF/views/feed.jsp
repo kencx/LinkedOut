@@ -4,13 +4,20 @@
 
 <!DOCTYPE html>
 <html>
+<style>
 
+
+</style>
 <head>
 <meta charset="ISO-8859-1">
+	
+	<!-- stylesheets -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feed.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
-	<link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto Mono' >
 	
+	<!-- js -->	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/submit.js"></script>
 	<title>Insert title here</title>
 </head>
 
@@ -28,16 +35,18 @@
 			
 			<div>
 				<div class="welcome-header">
-					<h3>Welcome Lorem Ipsum!</h3>
+				<c:set value="${requestScope.user}" var="user"></c:set>
+					<h3>Welcome ${user.firstname} ${user.lastname}!</h3>
 					<button id="option-menu">...</button>
 				</div>
 
 				<div>
 					<form method="POST" action="homefeed">
 						<textarea id="textarea" name="postText" rows="2" placeholder="Something to share...?"></textarea>
+					    <input type="text" name="tags" placeholder="Add tags: 'tag1, tag2'" />
+					    
 						<button class="post-button" type="submit">Post</button>
-						<!-- accept tag input -->
-					</form>	
+				 	 </form>
 				</div>
 			</div>
 		</div>
@@ -45,13 +54,18 @@
 		<!-- post block -->
 		<c:forEach var="post" items="${posts}">
 			<div class="container post-container">
-				
+			
 				<div class="post-header">
 					<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar"/>
-					<h4>${post.user.firstname} ${post.user.lastname}</h4>
+					<a href="profile/${post.user.username}">${post.user.firstname} ${post.user.lastname}</a>
 					<p id="profile">${post.user.occupation} | ${post.user.location}</p>
 					<button id="option-menu">...</button>
 					<p class="time">${post.getTimePassed()}</p>
+					
+					<c:forEach var="tag" items="${post.printTags()}">
+						<a href="search/${tag}">#${tag} </a>
+					</c:forEach>
+					
 				</div>
 			
 				<div class="post-body">
@@ -75,7 +89,7 @@
 									<button class="post-button" type="submit" name="likeButton" value="clicked">Like</button>
 									<button class="post-button" type="submit" name="commentButton" value="clicked">Comment</button>
 								</div>
-
+	
 								<div>
 									<c:set value="${post.usersWhoLiked}" var="likedUsers"/> 
 									<c:if test="${likedUsers.size() > 0}">
@@ -104,7 +118,7 @@
 							</div>
 							
 							<!-- post comment text block -->
-							<textarea name="commentText" rows="1" cols="25" placeholder="Post a comment..."></textarea>
+							<textarea id="textarea" name="commentText" rows="1" cols="25" placeholder="Post a comment..."></textarea>
 						</form>	
 					</div>
 				
@@ -128,17 +142,13 @@
 						</c:forEach>
 					</div>
 					
-					<!-- limit number of posts on page -->
+					<!-- limit number of posts on page (requires pagination) -->
 				</div>
 			</div>
 		</c:forEach>
 	</div>
-	
-	
-	
 </body>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/submit-textarea.js"></script>  
 <script>
 	// Get the modal
 	var modal = document.getElementById('listOfLikedUsers');

@@ -1,7 +1,11 @@
 package com.fdm.proj.controller;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +27,20 @@ import com.fdm.proj.service.HomeFeedService;
 public class HomeFeedController extends FeedController {
 
 	@Autowired
-	public HomeFeedController(HomeFeedService homeFeedService, HttpSession session) {
-		super(homeFeedService, session);
+	public HomeFeedController(HomeFeedService homeFeedService, HttpServletRequest req) {
+		super(homeFeedService, req);
 	}
 	
 	@Override
 	@RequestMapping(value="/homefeed", method=RequestMethod.GET)
 	public String loadFeed(Model model) {
 		
+		// if no user instance, redirect to login
+		if (model.getAttribute("currentUserId") != null) {
+			return "redirect:/login";
+		}
+		
+		initializeToUser();
 		model.addAttribute("posts", feedService.returnFeedPosts());
 		return "homefeed";
 	}
@@ -38,6 +48,7 @@ public class HomeFeedController extends FeedController {
 
 	@RequestMapping(value="/homefeed", method=RequestMethod.POST)
 	public String performTasks(
+			@RequestParam(required=false) String tags,
 			@RequestParam(required=false) String modifiedPostId,
 			@RequestParam(required=false) String postText,
 			@RequestParam(required=false) String postTag,
@@ -48,7 +59,7 @@ public class HomeFeedController extends FeedController {
 		initializeToUser();
 		
 		// user actions
-		writePost(postText, Instant.now(), postTag);
+		writePost(postText, Instant.now(), tags);
 		writeComment(commentText, commentButton, modifiedPostId, Instant.now());		
 		likePost(likeButton, modifiedPostId);
 		

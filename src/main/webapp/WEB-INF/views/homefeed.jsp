@@ -10,9 +10,10 @@
 
 <head>
 	<meta charset="ISO-8859-1">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feed.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
-	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto Mono' >
+	
 	<title>LinkedOut</title>
 </head>
 <body>
@@ -26,12 +27,11 @@
 	</div>
 	
 	<button onclick="topFunction()" id="top-button" class="top-button" title="Go to Top"><i class="fa fa-arrow-up"></i></button>
-	
-
-	
+		
 </body>
 
 <script>
+   
 	//Get the button:
 	mybutton = document.getElementById("top-button");
 	
@@ -51,5 +51,6 @@
 	  document.body.scrollTop = 0; // For Safari
 	  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 	}
+
 </script>
 </html>
