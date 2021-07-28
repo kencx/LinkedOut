@@ -1,0 +1,191 @@
+
+:root {
+    /* define color scheme */
+    --primary-color: #121414;
+    --secondary-color: #DAE8E4;
+    --tertiary-color: #F7F7FF;
+    --button-color: #375757;
+    --hover-button-color: #53A28B; 
+    
+    font-family: "Roboto Mono";
+    font-style: normal; font-variant: normal;
+
+    --nav-bar-height: 100px;
+}
+
+/* page structure */
+body {
+    background-color: var(--secondary-color);
+}
+
+/* add background image */
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: var(--nav-bar-height) auto 50px;
+    grid-template-areas: ". . ." "left left right" ". . .";
+    
+    column-gap: 80px;
+    margin: 20px 0;
+    padding: 45px;
+    /* border: 1px solid black; */
+}
+
+.header {
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--tertiary-color);
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: right;
+
+    background-color: var(--primary-color);
+    color: var(--tertiary-color);
+
+    font-size: 12px;
+}
+
+.footer p {
+    font-size: 16px;
+    margin-right: 50px;
+}
+
+/* nav bar */
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    white-space: normal;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    padding: 36px 30px;
+    font-size: 16px;
+    color: var(--tertiary-color);
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.navbar .settings {
+    /* padding-right: 10px; */
+    float: right;
+}
+
+.navbar a:hover {
+    background-color: var(--hover-button-color);
+}
+
+/* floating card with shadow */
+.card {
+    color: #000;
+    background-color: var(--tertiary-color);
+    text-align: center;
+
+    padding: 45px;
+
+    border: 1px solid #DAE8E4;
+    border-radius: 5px;
+    box-shadow:
+	0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+/* post container */
+.container {
+    color: #000;
+    background-color: #fff;
+    
+    min-height: 35px;
+    padding:0.01em 16px;
+    margin: 16px;
+
+    border-radius: 5px;
+    box-shadow:
+    0 2px 5px 0 rgba(0,0,0,0.16),
+    0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+
+/* sticky scrolling */
+.sticky {
+    position: fixed;
+    z-index: 1;
+}
+
+/* modal container */
+
+
+/* components */
+
+button {
+    background-color: var(--button-color);
+    color: var(--tertiary-color);
+    cursor: pointer;
+    text-transform: uppercase;
+    border: 1px solid var(--button-color);
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: var(--hover-button-color);
+}
+
+.post-button {
+    border:none;
+    padding:5px 18px;
+    margin: 10px;
+    overflow:hidden;
+    text-decoration:none;
+    white-space:nowrap;
+    border-radius: 5px;
+}
+
+/* scroll to top button */
+
+
+/* text-area */
+textarea {
+    width: 92%;
+    padding: 15px;
+    margin: 0 10px;
+
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    font-family: "Roboto Mono";
+}
+
+.message {
+	font-size: 14px;
+}
+
+.message a {
+    /* color: */
+}
+
+.message a:hover {
+
+}
+
+.error-message {
+	color: red;
+	font-weight: bold;
+}
+
+

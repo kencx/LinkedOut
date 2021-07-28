@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,51 +17,41 @@ import com.fdm.proj.model.Comment;
 import com.fdm.proj.model.Post;
 import com.fdm.proj.service.ProfileFeedService;
 
+/**
+ * This controller inherits from {@link FeedController} and manages all requests in the user's profile feed.
+ * It generates the user's own posts and manages user actions.
+ * @author Kenneth
+ *
+ */
 @Controller
 public class ProfileFeedController extends FeedController {
 
-
 	@Autowired
-	public ProfileFeedController(ProfileFeedService profileFeedService) {
-		super(profileFeedService);
+	public ProfileFeedController(ProfileFeedService profileFeedService, HttpSession session) {
+		super(profileFeedService, session);
 	}
-
 	
 	@Override
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
-	public String loadFeed(HttpSession session) {
+	public String loadFeed(Model model) {
 		
-		ProfileFeedService feedService = (ProfileFeedService) getFeedService();
-		initUser(session);
-		feedService.setUserId(user.getUserId()); 
-			
-		List<Post> posts = loadPosts();
-		session.setAttribute("posts", posts);
-				
-		HashMap<Integer, List<Comment>> comments = loadComments(posts);
-		session.setAttribute("comments", comments);
+		initializeToUser();
+		model.addAttribute("posts", feedService.returnFeedPosts());
+		model.addAttribute("comments", loadComments(feedService.returnFeedPosts()));
 		
 		return "profile";
 	}
 
 
 	@RequestMapping(value="/profile", method=RequestMethod.POST)
-	public String performTasks(HttpServletRequest req, HttpSession session, 
+	public String performTasks(HttpServletRequest req, 
 			@RequestParam(required=false) String modifiedPostId, 
 			@RequestParam(required=false) String postText,
 			@RequestParam(required=false) String commentText, 
 			@RequestParam(required=false) String commentButton, 
 			@RequestParam(required=false) String likeButton) {
 		
-		initUser(session);
-		ProfileFeedService feedService = (ProfileFeedService) getFeedService();
-		feedService.setUserId(user.getUserId()); 
-				
-		List<Post> posts = loadPosts();
-		session.setAttribute("posts", posts);
-				
-		HashMap<Integer, List<Comment>> comments = loadComments(posts);
-		session.setAttribute("comments", comments);
+		initializeToUser();
 		
 		// user actions
 		writePost(postText);

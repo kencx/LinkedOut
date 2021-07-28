@@ -46,7 +46,8 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String loginUser(HttpServletRequest req, 
-			@RequestParam String username, @RequestParam String password) {
+			@RequestParam String username, 
+			@RequestParam String password) {
 		
 		User user = loginService.verifyUser(username, password);
 		

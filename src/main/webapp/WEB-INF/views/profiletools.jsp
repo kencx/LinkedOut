@@ -57,7 +57,7 @@
 
 				<form class="details" method="POST" action="profile">
 
-					<!-- 
+					<!-- replace with settings error message
 						<c:set value='${requestScope.loginFailedMessage}' var="errorMessage"/>
 						<c:if test='${errorMessage != null}'>
 							<p class="error-message"><c:out value='${errorMessage}'/></p>

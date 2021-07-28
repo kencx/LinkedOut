@@ -7,14 +7,15 @@
 
 <head>
 	<meta charset="ISO-8859-1"> 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/details.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/form.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
 	<title>Login Page</title>
 </head>
 
 <body>
 	<jsp:include page="indexbar.jsp"/>
-	
+
 	<jsp:include page="logincard.jsp"/>
 	
 	<div class="footer">

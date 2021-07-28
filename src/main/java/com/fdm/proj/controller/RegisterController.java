@@ -52,9 +52,12 @@ public class RegisterController {
 	 * @return String "redirect:/login" if successful, "register" if registration failed
 	 */
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String registeringUser(HttpServletRequest req, @RequestParam String username, 
-			@RequestParam String password, @RequestParam String confirmPassword,
-			@RequestParam String firstname, @RequestParam String lastname) {
+	public String registeringUser(HttpServletRequest req, 
+			@RequestParam String firstname, 
+			@RequestParam String lastname,
+			@RequestParam String username, 
+			@RequestParam String password, 
+			@RequestParam String confirmPassword) {
 		
 		boolean status = registerService.registerUser(username, password, confirmPassword, firstname, lastname);
 		

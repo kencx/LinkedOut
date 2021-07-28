@@ -9,25 +9,29 @@
 
 <head>
 	<meta charset="ISO-8859-1">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/navbar.css" />
-	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+	<link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
 	<title>Insert title here</title>
 </head>
 
 <body>
 
-	<nav class="scroll-item">
-
-		<div class="nav-items">
-			<a href="index"><i class="fa fa-home"></i> Home</a>
-			<a href="login">Login</a>
-			<a href="register">Create Account</a>
-			
-			<a class="right" href="https://git.fdmgroup.com/kenneth.cheo/java-solo-project">About Us</a>
-			<a class="right" href="mailto:kenneth.cheo@fdmgroup.com">Contact Us</a>
-		</div>
-	</nav>
+	<div class="header sticky navbar">
+	
+        <div>
+            <a href="index">Home</a>
+            <a href="#">About</a>
+            <a href="#">Explore</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact</a>
+        </div>
+        
+        <div class="settings">
+            <a href="login">Login</a>
+            <a href="register">Create Account</a>
+        </div>
+        
+    </div>
 
 </body>
 </html>

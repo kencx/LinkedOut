@@ -4,118 +4,12 @@
 
 <!DOCTYPE html>
 <html>
-<style>
-	.feed {
-		position: absolute;
-		left: 30%;
-		right: 30%;
-	}
-	
-	.post-card, .comment-card {
-		min-height: 35px;
-		padding:0.01em 16px;
-		margin: 16px;
-	}
-	
-	.post-text-box {
-		margin: 16px;
-		padding: padding: 0 10px;
-		color:#000;
-		background-color:#fff;
-		border-radius: 4px;
-		box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
-	}
-	
-	.post-card:before, .post-card:after, .post-text-box:before, .post-text-box:after {
-		content:"";
-		display:table;
-		clear:both
-	}
-		
-	.post-body {
-		margin-left: 20px;
-	}
-	
-	.avatar {
-		float: left;
-		width: 40px;
-		margin-right: 16px;
-		border-radius: 50%;
-	}
-	
-	.avatar#comment {
-		width: 25px;
-	}
-	
-	.time {
-		font-size: 10px;
-		margin-top: -16px;
-	}
-	
-	.interaction-bar .post-button {
-		float: left;
-	}
-	
-	.interaction-bar .likes {
-		float:right; 
-		margin-bottom: -10px;
-		margin-right:20px
-	}
-	
-	.likes {
-		vertical-align:middle;
-		text-align:center;
-		cursor:pointer;
-	}
-	
-	.likes:hover {
-		text-decoration: underline;
-	}
-	
-	.like-user-card {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-	}
-	
-	#like-modal-container {
-		width: 20%;
-	}
-	
-	.clear {
-		opacity: 0.1;
-	}
-	
-	.header #text-box {
-		padding: 10px;
-	}
-		
-	.greeting h3 {
-		float: left;
-		opacity: 0.8; 
-		margin: 16px;
-		padding-left: 3px; 
-		padding-top:5px; 
-		text-transform:capitalize;
-	}
-	
-	#options-menu {
-		float: right;
-		border-radius: 30%;
-		padding: 5px;
-		margin: 10px;
-	}
-	
-	#options-menu:hover {
-		background-color: #EBEBFF;
-	}
-	
-</style>
 
 <head>
 <meta charset="ISO-8859-1">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
-	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feed.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
+	<link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
 	
 	<title>Insert title here</title>
 </head>
@@ -128,9 +22,9 @@
 		<!-- post status text box block -->
 		<div class="container welcome-container">
 
-			<div class="color-margin" id="text-box">	
+			<!-- <div class="color-margin" id="text-box">	
 				<p></p>
-			</div>	
+			</div>  -->	
 			
 			<div>
 				<div class="welcome-header">
@@ -148,19 +42,17 @@
 		</div>
 		
 		<!-- post block -->
-		<c:forEach var="post" items="${sessionScope.posts}">
-			<div class="container post-card">
+		<c:forEach var="post" items="${posts}">
+			<div class="container post-container">
 				
 				<div class="post-header">
 					<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar"/>
 					<h4>${post.user.firstname} ${post.user.lastname}</h4>
-					<p class="time">${post.user.occupation} | ${post.user.location}</p>
-				<!-- 	<p class="time">1 m</p> post time -->
-					<span id="options-menu" style="float:right; margin-top: -50px">...</span>
-				</div>
-				
-				<hr class="clear" style="margin-top:-5px"></hr>
-				
+					<p id="profile">${post.user.occupation} | ${post.user.location}</p>
+					<button id="option-menu">...</button>
+					<p class="time">2 h</p>
+				</div>		
+			
 				<div class="post-body">
 					<p>${post.body}</p>
 				</div>
@@ -170,22 +62,23 @@
 				<!-- interact buttons, comments footer block -->
 				<div class="post-footer">				
 					
-					<div class="post-comment-box">
+					<div class="interaction-bar">
 						<form method="POST">
 						
 							<!-- Save modified post Id -->
 							<input type="hidden" value="${post.postId}" name="modifiedPostId">
 							
-							<div class="interaction-bar">
-								
-								<!-- TODO: if user liked already, change to unlike button -->
-								<button class="post-button" type="submit" name="likeButton" value="clicked">Like</button>
-								<button class="post-button" type="submit" name="commentButton" value="clicked">Comment</button>
+							<div class="bar-buttons">
+								<div>
+									<!-- TODO: if user liked already, change to unlike button -->
+									<button class="post-button" type="submit" name="likeButton" value="clicked">Like</button>
+									<button class="post-button" type="submit" name="commentButton" value="clicked">Comment</button>
+								</div>
 
 								<div>
 									<c:set value="${post.usersWhoLiked}" var="likedUsers"/> 
 									<c:if test="${likedUsers.size() > 0}">
-									<span class="likes post-button" onclick="document.getElementById('listOfLikedUsers').style.display='block'">${likedUsers.size()} like(s)</span>
+									<span class="likes" onclick="document.getElementById('listOfLikedUsers').style.display='block'">${likedUsers.size()} like(s)</span>
 									</c:if>		
 								</div>
 							</div>
@@ -217,11 +110,16 @@
 					<!--  comment block -->
 					<div class="post-comments">
 						<c:forEach var="comment" items="${post.comments}">
-							<div class="container comment-card" style="box-shadow:none; border: 1px solid #ccc">
+							<div class="container comment-container" style="box-shadow:none;border:1px solid #ccc;margin-left: 10px;">
+							
 								<div class="comment-header">	
 									<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="comment"/>
-									<p class="time" style="float:right; margin-top:-5px">1 m</p><h5>${comment.user.firstname} ${comment.user.lastname}</h5>
+									<h5>${comment.user.firstname} ${comment.user.lastname}</h5>
+									<p id="profile">${post.user.occupation} | ${post.user.location}</p>
+									<button id="option-menu">...</button>
+									<p class="time">2 h</p>
 								</div>
+								
 								<div class="comment-body">
 									<p>${comment.commentBody}</p>
 								</div>					

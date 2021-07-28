@@ -9,13 +9,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
+/**
+ * This controller handles all requests to the logout page.
+ * @author Kenneth
+ *
+ */
 @Controller
 public class LogoutController {
 	
 	private static final Logger INFO = LogManager.getLogger(LogoutController.class);
 
-
+	/**
+	 * Handles GET requests to logout. All session information is cleared and the user is redirected to the login page.
+	 * @param session HttpSession Current session
+	 * @param resp HttpServletResponse
+	 * @return
+	 */
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logoutUser(HttpSession session, HttpServletResponse resp) {
 
