@@ -8,18 +8,18 @@
 <head>
 <meta charset="ISO-8859-1">
 	<title>Profile</title>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feed.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/profile.css" />
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto Mono' >
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/submit.js"></script>	
 </head>
 
 <body>
 	<jsp:include page="navbar.jsp"/>
 	
-	<div class="main">
-		<hr style="opacity:0">
-		<jsp:include page="profiletools.jsp"/>
+	<div class="feed-main">
+		
 		<jsp:include page="profilecard.jsp"/>
 		
 		<jsp:include page="feed.jsp"/>

@@ -1,12 +1,8 @@
 package com.fdm.proj.controller;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +43,7 @@ public class HomeFeedController extends FeedController {
 
 
 	@RequestMapping(value="/homefeed", method=RequestMethod.POST)
-	public String performTasks(
+	public String executeUserActions (
 			@RequestParam(required=false) String tags,
 			@RequestParam(required=false) String modifiedPostId,
 			@RequestParam(required=false) String postText,

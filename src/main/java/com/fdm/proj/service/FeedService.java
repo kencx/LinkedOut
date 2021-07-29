@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.fdm.proj.dal.PostDAO;
+import com.fdm.proj.dal.TagDAO;
 import com.fdm.proj.dal.UserDAO;
 import com.fdm.proj.model.Comment;
 import com.fdm.proj.model.Post;
@@ -17,10 +18,12 @@ public abstract class FeedService {
 	
 	protected UserDAO userDAO;
 	protected PostDAO postDAO;
+	protected TagDAO tagDAO;
 
-	public FeedService(UserDAO userDAO, PostDAO postDAO) {
+	public FeedService(UserDAO userDAO, PostDAO postDAO, TagDAO tagDAO) {
 		this.postDAO = postDAO;
 		this.userDAO = userDAO; 
+		this.tagDAO = tagDAO;
 	}
 
 	public abstract List<Post> returnFeedPosts();
@@ -30,11 +33,31 @@ public abstract class FeedService {
 		return user;
 	}
 	
+	/**
+	 * This method has the given user create a post with optional tags. If any of the given tags already exist, the post is mapped to the tag. Otherwise, a post is created normally.
+	 * @param user Author of post
+	 * @param postBody Content of post
+	 * @param timeCreated Time of creation
+	 * @param tags Optional tags given to post
+	 */
 	public void userCreatePost(User user, String postBody, Instant timeCreated, List<Tag> tags) {
-		Post post;
+		Post post = null;
 		
 		if (tags != null) {
-			post = new Post(postBody, timeCreated, tags);
+			
+			// check if any tags exist already
+			for (Tag tag : tags) {
+				
+				Tag existingTag = tagDAO.findByTagName(tag.getTagName());
+				
+				if (existingTag != null) {
+					post = new Post(postBody, timeCreated);
+					post.addTag(existingTag);
+				} else {
+					post = new Post(postBody, timeCreated, tags);
+				}
+			}
+			
 		} else {
 			post = new Post(postBody, timeCreated);	
 		}

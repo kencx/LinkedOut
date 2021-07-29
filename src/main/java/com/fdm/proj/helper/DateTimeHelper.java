@@ -10,7 +10,7 @@ public interface DateTimeHelper {
 	
 	public static final List<Long> times = Arrays.asList(
 			TimeUnit.DAYS.toMillis(365),
-			TimeUnit.DAYS.toMillis(30),
+			TimeUnit.DAYS.toMillis(7),
 			TimeUnit.DAYS.toMillis(1),
 			TimeUnit.HOURS.toMillis(1),
 			TimeUnit.MINUTES.toMillis(1),
@@ -18,9 +18,9 @@ public interface DateTimeHelper {
 			);
 			
 	public static final List<String> timesString = Arrays.asList(
-			"y", "m", "d", "h", "min", "s");
+			"y", "w", "d", "h", "min", "s");
 	
-	// TODO refactor into non copy code
+	
 	public static String toTimeString(long duration) {
 		
 		StringBuffer result = new StringBuffer();
@@ -36,10 +36,10 @@ public interface DateTimeHelper {
 		if (result.toString().equals("")) {
 			return "0 s";
 		}
-		
 		return result.toString();
 	}
 
+	
 	public static long timePassedInMillis(Instant currentTime, Instant timeCreated) {
 		
 		Duration duration = Duration.between(timeCreated, currentTime);

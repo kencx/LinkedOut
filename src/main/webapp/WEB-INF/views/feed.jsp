@@ -43,16 +43,17 @@
 				<div>
 					<form method="POST" action="homefeed">
 						<textarea id="textarea" name="postText" rows="2" placeholder="Something to share...?"></textarea>
-					    <input type="text" name="tags" placeholder="Add tags: 'tag1, tag2'" />
+					    <input type="text" class="tag-bar" name="tags" placeholder="Tags: tag1, tag2, ..." autocomplete="off" />
 					    
-						<button class="post-button" type="submit">Post</button>
+						<button class="post-button" style="float: right;" type="submit">Post</button>
 				 	 </form>
+				 	 <p></p>
 				</div>
 			</div>
 		</div>
 		
 		<!-- post block -->
-		<c:forEach var="post" items="${posts}">
+		<c:forEach var="post" items="${posts}" varStatus="loop">
 			<div class="container post-container">
 			
 				<div class="post-header">
@@ -61,15 +62,16 @@
 					<p id="profile">${post.user.occupation} | ${post.user.location}</p>
 					<button id="option-menu">...</button>
 					<p class="time">${post.getTimePassed()}</p>
-					
-					<c:forEach var="tag" items="${post.printTags()}">
-						<a href="search/${tag}">#${tag} </a>
-					</c:forEach>
-					
 				</div>
 			
 				<div class="post-body">
 					<p>${post.body}</p>
+					<c:if test="${post.printTags().size()>0}">
+						<span style="font-size: 12px">Tags: </span>
+					</c:if>
+					<c:forEach var="tag" items="${post.printTags()}">
+						<a href="search/${tag}">#${tag}</a> 
+					</c:forEach>
 				</div>
 				
 				<hr class="clear"></hr>
@@ -89,17 +91,18 @@
 									<button class="post-button" type="submit" name="likeButton" value="clicked">Like</button>
 									<button class="post-button" type="submit" name="commentButton" value="clicked">Comment</button>
 								</div>
-	
-								<div>
+								
+								<div class="left-buttons">
+									<span class="showHideComments" onclick="showHideComments(${loop.index})">${post.comments.size()} comments</span> 
 									<c:set value="${post.usersWhoLiked}" var="likedUsers"/> 
 									<c:if test="${likedUsers.size() > 0}">
-									<span class="likes" onclick="document.getElementById('listOfLikedUsers').style.display='block'">${likedUsers.size()} like(s)</span>
+										| <span class="likes" onclick="showLikeContainer(${loop.index})">${likedUsers.size()} like(s)</span>
 									</c:if>		
 								</div>
 							</div>
 							
 							<!-- modal container for liked users button -->
-							<div id="listOfLikedUsers" class="modal" data-keyboard="false" data-backdrop="static">
+							<div id="listOfLikedUsers${loop.index}" class="modal" data-keyboard="false" data-backdrop="static">
 								<div class="modal-container" id="like-modal-container">
 									<h3>Liked Users</h3>
 									
@@ -113,17 +116,18 @@
 										</c:forEach>
 									</div>
 									<p></p>
-									<button class="post-button" onclick="document.getElementById('listOfLikedUsers').style.display='none'">Close</button>
+									<button class="post-button" onclick="document.getElementById('listOfLikedUsers${loop.index}').style.display='none'">Close</button>
 								</div>
 							</div>
 							
 							<!-- post comment text block -->
 							<textarea id="textarea" name="commentText" rows="1" cols="25" placeholder="Post a comment..."></textarea>
+							<p></p>
 						</form>	
 					</div>
 				
 					<!--  comment block -->
-					<div class="post-comments">
+					<div class="post-comments" id="showhide${loop.index}" style="display: none"> 
 						<c:forEach var="comment" items="${post.getCommentsSortedByTime()}">
 							<div class="container comment-container" style="box-shadow:none;border:1px solid #ccc;margin-left: 10px;">
 							
@@ -141,8 +145,6 @@
 							</div>
 						</c:forEach>
 					</div>
-					
-					<!-- limit number of posts on page (requires pagination) -->
 				</div>
 			</div>
 		</c:forEach>
@@ -150,15 +152,24 @@
 </body>
 
 <script>
-	// Get the modal
-	var modal = document.getElementById('listOfLikedUsers');
-	
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-	  if (event.target == modal) {
-	    modal.style.display = "none";
-	  }
+	// shows correct post's likes modal container
+	function showLikeContainer(idx) {
+		var x = document.getElementById("listOfLikedUsers"+idx);
+		x.style.display = "block";
 	}
+</script>
+
+<script>
+	// shows correct post's comments container
+function showHideComments(idx) {
+	var x = document.getElementById("showhide"+idx);
+	
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	} else {
+		x.style.display = "none";
+	}
+}
 </script>
 
 </html>

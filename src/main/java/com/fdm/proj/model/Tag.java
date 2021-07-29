@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,6 +32,7 @@ public class Tag {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int tagId;
 	
+	@Column(unique=true)
 	private String tagName;
 	
 	@ManyToMany(mappedBy="tags", cascade={CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.EAGER)

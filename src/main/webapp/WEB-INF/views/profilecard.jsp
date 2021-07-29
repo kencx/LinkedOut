@@ -5,58 +5,22 @@
 <!DOCTYPE html>
 <html>
 <style>
-
-	.scroll-container {
-		width: 300;
-		left: 5%;
-		right: 75%;
-		top: 18%;
-	}
-	
-	.profile-container {
-		width: 100%;
-		position: absolute;
-		margin: 20px 20px;
-	}
-		
-	.profile-avatar {
-		width: 100px;
-		border-radius: 50%;
-	}
-	
-	.profile-container {
-		text-transform: capitalize;
-	}
-	
-	.container a {
-		text-decoration: none;
-		color: black;	
-	}
-	
-	.container a:hover {
-		text-decoration: underline;
-		color: #5691C8;
-	}
-	
-	.profile-container a {
-		font-size: 32px;
-	}
-
 </style>
 
 <head>
 	<meta charset="ISO-8859-1">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/profile.css" />
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto Mono' >
 	<title>Insert title here</title>
 </head>
 
 <body>
-	<div class="scroll-item scroll-container">
+	<div class="sticky scroll-container">
 		
 		<div class="card container profile-container">
 		
-		
-			<div style="margin: 20px 20px">
+			<div>
 				<h1><a href="profile">My Profile</a></h1>
 				<c:set value="${requestScope.user}" var="user"></c:set>
 				<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="profile-avatar"/><br>

@@ -143,7 +143,6 @@ public class Post implements DateTimeHelper {
 	
 	public Set<String> printTags() {
 		Set<String> tagNames = tags.stream().map(Tag::getTagName).collect(Collectors.toSet());
-//		return String.join(", ", tagNames);
 		return tagNames;
 	}
 	

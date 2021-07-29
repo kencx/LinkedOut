@@ -221,7 +221,6 @@ public class User {
 		}
 	}
 	
-	// TODO refactor this
 	@Override
 	public boolean equals(Object other) {
 		Integer userId = (Integer) this.userId;

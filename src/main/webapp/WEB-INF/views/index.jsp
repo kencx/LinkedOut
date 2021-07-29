@@ -22,9 +22,7 @@
 
     .right-container {
         grid-area: right;
-        padding: 50px 50px;
-        text-align: center;
-        /* border: 1px solid black; */
+       	height: 500px;
     }
 		
 </style>
@@ -41,22 +39,20 @@
 	
     <div class="main">
 
-            <div class="left-container">
-                <div class="primary-text">
-                    <h1 style="font-size: 82px; margin-left: 10px;">LinkedOut</h1>
-                    <h1>Igitur ne dolorem quidem.</h1>
-                    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non sem et lacus malesuada mollis. Praesent malesuada at diam id gravida. Nulla orci arcu, ornare eget fringilla sit amet, hendrerit eu mi.</h3>
-                </div>
-                <img src="img/stock.png" height=auto width=600px />
-            </div>
-            
-            <div class="right-container">
-                <h1>placeholder card</h1>
-                	<div class="logincard">
-                    	<jsp:include page="logincard.jsp"/>
-                    </div>
-            </div>
-
+		<div class="left-container">
+			<div class="primary-text">
+		        <h1 style="font-size: 82px; margin-left: 10px;">LinkedOut</h1>
+		        <h1>Igitur ne dolorem quidem.</h1>
+		        <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non sem et lacus malesuada mollis. Praesent malesuada at diam id gravida. Nulla orci arcu, ornare eget fringilla sit amet, hendrerit eu mi.</h3>
+		    </div>
+		    <img src="${pageContext.request.contextPath}/img/stock.png" height=auto width=600px />
+		</div>
+		
+		<div class="right-container">
+			<div style="margin-top: -150px;">
+				<jsp:include page="logincard.jsp"/>
+			</div>
+		</div>
     </div>
 
     <div class="footer">

@@ -1,5 +1,6 @@
 package com.fdm.proj.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,7 +22,6 @@ import com.fdm.proj.service.SearchService;
 public class SearchController {
 
 	private static final Logger INFO = LogManager.getLogger(LoginController.class);
-	private static final Logger ERROR = LogManager.getLogger(LoginController.class);
 	
 	private SearchService searchService;
 	
@@ -30,37 +30,55 @@ public class SearchController {
 		this.searchService = searchService;
 	}
 	
+	
 	@RequestMapping(value="/search", method=RequestMethod.POST)
 	public String performSearch(Model model, @RequestParam String searchbar, HttpSession session) {
 	
-		List<Post> searchResult = searchService.search(searchbar);
-
-		if (searchResult == null) {
-			
-			session.setAttribute("searchResult", searchResult); // update with empty search
-			INFO.info("Search " + searchbar + " found 0 posts.");
-		} else {
-			
-			session.setAttribute("searchResult", searchResult);
-			INFO.info("Search " + searchbar + " found " + searchResult.size() + " posts.");
+		String path = checkPath(searchbar);
+		if (path != null) {
+			return path;
 		}
+		
+		performSearch(searchbar, session);
 		return "redirect:/search/" + searchbar;
 	}
 	
-	 @RequestMapping(value="/search/{searchbar}", method=RequestMethod.GET)
-		public String loadSearchPage(@PathVariable String searchbar, HttpSession session) {
+	@RequestMapping(value="/search/{searchbar}", method=RequestMethod.GET)
+	public String loadSearchPage(@PathVariable String searchbar, HttpSession session) {
 		 
-		 List<Post> searchResult = searchService.search(searchbar);
+		String path = checkPath(searchbar);
+		if (path != null) {
+			return path;
+		}
+		
+		performSearch(searchbar, session);
+		return "search";
+	}
+	
+	
+	public void performSearch(String searchbar, HttpSession session) {
+		
+		List<Post> searchResult = searchService.search(searchbar);
 
 		if (searchResult == null) {
-			
 			session.setAttribute("searchResult", searchResult); // update with empty search
 			INFO.info("Search " + searchbar + " found 0 posts.");
-		} else {
 			
+		} else {
 			session.setAttribute("searchResult", searchResult);
 			INFO.info("Search " + searchbar + " found " + searchResult.size() + " posts.");
 		}
-		return "search";
+	}
+	
+	
+	public String checkPath(String searchbar) {
+		
+		// HARDCODED: if path is to other existing controller pages
+		List<String> existingPaths = Arrays.asList("homefeed", "profile", "logout");
+		
+		if (existingPaths.contains(searchbar)) {
+			return "redirect:/" + searchbar;
+		}
+		return null;
 	}
 }

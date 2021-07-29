@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fdm.proj.dal.PostDAO;
+import com.fdm.proj.dal.TagDAO;
 import com.fdm.proj.dal.UserDAO;
 import com.fdm.proj.model.Post;
 
@@ -14,8 +15,8 @@ import com.fdm.proj.model.Post;
 public class HomeFeedService extends FeedService {
 
 	@Autowired
-	public HomeFeedService(UserDAO userDAO, PostDAO postDAO) {
-		super(userDAO, postDAO);
+	public HomeFeedService(UserDAO userDAO, PostDAO postDAO, TagDAO tagDAO) {
+		super(userDAO, postDAO, tagDAO);
 	}
 
 	/**

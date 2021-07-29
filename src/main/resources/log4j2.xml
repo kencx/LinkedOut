@@ -16,10 +16,8 @@
    
 
     <Loggers>
-        <Root level="error">
-        	<AppenderRef ref="STDOUTAppender" />
-        </Root>
-        
+        <Root level="error"/>
+        	
         <Logger name="com.fdm.proj" level="error" >
             <AppenderRef ref="STDOUTAppender" />
         </Logger>

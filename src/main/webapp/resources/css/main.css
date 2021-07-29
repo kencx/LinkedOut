@@ -32,6 +32,18 @@ body {
     /* border: 1px solid black; */
 }
 
+.feed-main {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    /* grid-template-rows: var(--nav-bar-height) auto 50px; */
+    grid-template-areas: "profile feed .";
+    
+    column-gap: 100px;
+    margin: 50px 80px;
+    padding: 45px;
+    /* border: 1px solid black; */
+}
+
 .header {
     left: 0;
     top: 0;
@@ -85,6 +97,20 @@ body {
     background-color: var(--hover-button-color);
 }
 
+.search-bar {
+    float: left;
+    max-width: 500px;
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
+.search-bar input[type=text] {
+    font-size: 14px;
+    padding: 10px 15px;
+    float: left;
+    border: none;
+}
+
 /* floating card with shadow */
 .card {
     color: #000;
@@ -119,7 +145,6 @@ body {
     0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
-
 /* sticky scrolling */
 .sticky {
     position: fixed;
@@ -127,6 +152,27 @@ body {
 }
 
 /* modal container */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    overflow: auto;
+    opacity: 0.95;
+    background-color: #474e5d;
+}
+
+.modal-container {
+    position: relative; 
+    background-color: #fff;
+    padding: 30px; 
+    margin: auto; 
+    width: 50%;
+}
 
 
 /* components */
@@ -155,6 +201,26 @@ button:hover {
 }
 
 /* scroll to top button */
+
+.top-button {
+    display: none;
+    position: fixed; 
+    bottom: 60px; 
+    right: 30px; 
+    z-index: 99;
+    border: none; 
+    outline: none;
+    padding: 15px;
+    background-color: var(--button-color);
+    color: var(--tertiary-color); 
+    cursor: pointer; 
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.top-button:hover {
+  background-color: var(--hover-button-color); 
+}
 
 
 /* text-area */
@@ -187,5 +253,3 @@ textarea {
 	color: red;
 	font-weight: bold;
 }
-
-

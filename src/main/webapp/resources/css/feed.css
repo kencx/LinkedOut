@@ -3,6 +3,9 @@
 .feed {
     min-width: 400px;
     max-width: 800px;
+    grid-area: feed;
+    margin-top: 50px;    
+    /* border: 1px solid black; */
 }
 
 .welcome-container {
@@ -46,6 +49,13 @@
     background-color: rgb(209, 209, 202);
 }
 
+.tag-bar {
+    padding: 5px 20px;
+    margin: 10px 10px;
+    border: 1px solid #ccc;
+    font-family: "Roboto Mono";
+}
+
 .post-header {
     display: grid;
     grid-template-columns: 60px 1fr auto 10px;
@@ -66,12 +76,18 @@
     margin-left: 25px;
 }
 
-.post-header h4 {
+.post-header a {
     grid-area: name;
     justify-items: start;
     font-size: 20px;
     padding: 0px;
     margin: 15px 0 0 5px;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.post-header a:hover {
+    text-decoration: underline;
 }
 
 .post-header #profile {
@@ -102,6 +118,16 @@
     padding: 0 20px;
 }
 
+.post-body a {
+	font-size: 12px;
+    text-decoration: none;;
+    color: var(--primary-color);
+}
+
+.post-body a:hover {
+    text-decoration: underline;
+}
+
 .avatar {
     width: 45px;
     border-radius: 50%;
@@ -116,8 +142,21 @@
     justify-content: space-between;
 }
 
-.bar-buttons .likes {
+.left-buttons {
     margin: 10px 20px;
+}
+
+.bar-buttons .showHideComments {
+    text-align:center;
+    font-size: 14px;
+    cursor:pointer;
+}
+
+.bar-buttons .showHideComments:hover {
+    text-decoration: underline;
+}
+
+.bar-buttons .likes {
     text-align:center;
     font-size: 14px;
     cursor:pointer;
@@ -127,14 +166,18 @@
     text-decoration: underline;
 }
 
+#like-modal-container {
+    width: 20%;
+}
+
 .like-user-card {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-#like-modal-container {
-    width: 20%;
+.like-user-card h4 {
+    padding-left: 15px;
 }
 
 .comment-header {
