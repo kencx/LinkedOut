@@ -5,11 +5,11 @@
 
 <style>
 
-	left-container {
+	.left-container {
         grid-area: left;
         display: flex;
         padding: 10px 10px;
-        /* border: 1px solid black; */
+
     }
 
     .left-container img {
@@ -23,6 +23,7 @@
     .right-container {
         grid-area: right;
        	height: 500px;
+       	margin-right: 120px;
     }
 		
 </style>
@@ -45,7 +46,7 @@
 		        <h1>Igitur ne dolorem quidem.</h1>
 		        <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non sem et lacus malesuada mollis. Praesent malesuada at diam id gravida. Nulla orci arcu, ornare eget fringilla sit amet, hendrerit eu mi.</h3>
 		    </div>
-		    <img src="${pageContext.request.contextPath}/img/stock.png" height=auto width=600px />
+		    <img src="${pageContext.request.contextPath}/resources/images/stock.png" height=auto width=600px />
 		</div>
 		
 		<div class="right-container">

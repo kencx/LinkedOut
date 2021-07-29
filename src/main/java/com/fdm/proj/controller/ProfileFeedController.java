@@ -85,8 +85,7 @@ public class ProfileFeedController extends FeedController {
 		writePost(postText, Instant.now(), postTag);
 		writeComment(commentText, commentButton, modifiedPostId, Instant.now());
 		likePost(likeButton, modifiedPostId);
-		edit(req);
-		
+			
 		return "redirect:/profile";
 	}
 	
@@ -151,30 +150,4 @@ public class ProfileFeedController extends FeedController {
 				
 		return "redirect:/profile/" + username;
 	}
-	
-	/**
-	 * This method handles requests to update the user's personal particulars.
-	 * @param req
-	 * @return
-	 */
-	// TODO refactor this to @RequestParam and Spring forms
-	public String edit(HttpServletRequest req) {
-		
-		// downcast to access child methods
-		ProfileFeedService feedService = (ProfileFeedService) getFeedService();
-				
-		String firstname = req.getParameter("firstname");
-		String lastname = req.getParameter("lastname");
-		String location = req.getParameter("location");
-		String occupation = req.getParameter("occupation");
-		String password = req.getParameter("password");
-		String confirmPassword = req.getParameter("confirmPassword");
-		
-		feedService.updateUserDetails(firstname, lastname, location, occupation, password, confirmPassword);
-		INFO.info("User " + user.getUsername() + " particulars updated!");
-		
-		return "profile";
-	}
-
-	
 }

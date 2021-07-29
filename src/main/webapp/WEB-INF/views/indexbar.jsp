@@ -20,10 +20,10 @@
 	
         <div>
             <a href="index">Home</a>
-            <a href="#">About</a>
-            <a href="#">Explore</a>
+            <a href="https://git.fdmgroup.com/kenneth.cheo">About</a>
+            <a href="https://git.fdmgroup.com/kenneth.cheo/java-solo-project">Explore</a>
             <a href="#">Blog</a>
-            <a href="#">Contact</a>
+            <a href="mailto:kenneth.cheo@fdmgroup.com">Contact</a>
         </div>
         
         <div class="settings">

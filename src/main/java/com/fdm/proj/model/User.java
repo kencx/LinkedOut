@@ -50,12 +50,11 @@ public class User {
 	private String password;
 	private String firstname;
 	private String lastname;
-	private String email;
 	private String location;
 	private String occupation;
+	private String bio;
 	
 	// TODO add more user attributes
-	private String bio;
 	private String avatarUrl;
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
@@ -126,14 +125,6 @@ public class User {
 		this.lastname = lastname;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getLocation() {
 		return location;
 	}
@@ -148,6 +139,14 @@ public class User {
 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
+	}
+	
+	public String getBio() {
+		return bio;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
 	}
 
 	public List<Post> getCreatedPosts() {

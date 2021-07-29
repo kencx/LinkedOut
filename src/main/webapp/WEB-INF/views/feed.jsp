@@ -54,12 +54,13 @@
 		
 		<!-- post block -->
 		<c:forEach var="post" items="${posts}" varStatus="loop">
-			<div class="container post-container">
+			<div class="container">
 			
 				<div class="post-header">
 					<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar"/>
 					<a href="profile/${post.user.username}">${post.user.firstname} ${post.user.lastname}</a>
-					<p id="profile">${post.user.occupation} | ${post.user.location}</p>
+					
+					<p id="profile"><c:if test="${post.user.occupation != null}">${post.user.occupation}</c:if> <c:if test="${post.user.location != null}">| ${post.user.location}</c:if></p>
 					<button id="option-menu">...</button>
 					<p class="time">${post.getTimePassed()}</p>
 				</div>

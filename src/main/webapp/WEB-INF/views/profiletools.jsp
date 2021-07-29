@@ -94,8 +94,6 @@
 			</div>
 		</div>
 
-		<!-- share button -->
-		<button class="post-button">Share</button>
 
 		<!-- delete button -->
 		<button class="post-button"

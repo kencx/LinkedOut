@@ -33,6 +33,10 @@
 				<c:if test="${user.occupation != null}">
 					<p>Occupation: ${user.occupation}</p>
 				</c:if>
+				<c:if test="${user.bio != null}">
+					<p style="text-align:justified;">${user.bio}</p>
+				</c:if>
+				<p></p>
 			</div>
 		</div>
 	</div>
