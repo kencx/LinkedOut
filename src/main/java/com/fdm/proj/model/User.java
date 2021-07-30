@@ -54,9 +54,6 @@ public class User {
 	private String occupation;
 	private String bio;
 	
-	// TODO add more user attributes
-	private String avatarUrl;
-	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<Post> createdPosts = new ArrayList<>();
 	
@@ -217,16 +214,6 @@ public class User {
 		if (likedPosts.contains(post)) {
 			this.likedPosts.remove(post);
 			post.removeUserFromLiked(this);
-		}
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		Integer userId = (Integer) this.userId;
-		if ((other instanceof User) && (userId != null)) {
-			return userId.equals(((User) other).userId);
-		} else {
-			return other == this;
 		}
 	}
 	

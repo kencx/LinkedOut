@@ -29,7 +29,7 @@ public class OptionsService {
 
 	public String update(String firstname, String lastname, String location, String occupation, String bio) {
 		
-		String message = "Update failed";
+		String message;
 		
 		if (firstname != null && firstname != "") {
 			user.setFirstname(firstname);			
@@ -54,7 +54,7 @@ public class OptionsService {
 		userDAO.updateUser(user.getUserId(), user);
 		INFO.info("User " + user.getUsername() + " particulars updated!");
 		message = "Particulars updated!";
-		
+
 		return message;
 	}
 

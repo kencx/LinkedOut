@@ -1,6 +1,7 @@
 package com.fdm.proj.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,10 @@ public class SearchService {
 		
 		Set<Post> resultPosts = resultTag.getPosts();
 		List<Post> posts = new ArrayList<>(resultPosts);
+		
+		Comparator<Post> sortByTimePassed = (p1, p2) -> Long.compare(p1.getTimePassedInMilli(), p2.getTimePassedInMilli());
+		posts.sort(sortByTimePassed);
+		
 		return posts;
 	}
 }

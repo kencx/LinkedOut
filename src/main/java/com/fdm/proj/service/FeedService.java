@@ -72,6 +72,11 @@ public abstract class FeedService {
 		userDAO.updateUser(user.getUserId(), user);
 	}
 	
+	public void likePost(User user, Post likedPost) {
+		user.likePost(likedPost);
+		postDAO.updatePost(likedPost.getPostId(), likedPost);
+	}
+	
 	public Post returnPost(int postID) {
 		Post post = postDAO.findById(postID);
 		return post;
@@ -79,13 +84,6 @@ public abstract class FeedService {
 	
 	public List<Comment> returnAllPostComments(Post post) {
 		List<Comment> comments = post.getComments();
-		
 		return comments;
-	}
-
-	public void likePost(User user, Post likedPost) {
-		user.likePost(likedPost);
-		postDAO.updatePost(likedPost.getPostId(), likedPost);
-	}
-	
+	}	
 }
