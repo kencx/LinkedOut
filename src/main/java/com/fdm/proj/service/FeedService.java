@@ -2,7 +2,7 @@ package com.fdm.proj.service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -50,28 +50,32 @@ public abstract class FeedService {
 		
 		if (tags != null) {
 			
-			List<Tag> tagExists = processTagExistence(tags);
+			HashMap<Tag,Integer> tagExistsMap = processTagExistence(tags);
 
-			if (tagExists.stream().allMatch(i -> i == null)) { // all tags do not exist
-				post = new Post(postBody, timeCreated, tags); 
+			if (!tagExistsMap.containsValue(1)) { // all tags do not exist
+				post = new Post(postBody, timeCreated, tags); 				
 			}
-			
+
 			else {
-				List<Tag> nonExistingTags = IntStream.range(0, tags.size())
-													 .filter(i -> tagExists.get(i) == null)
-													 .mapToObj(i -> tags.get(i))
-													 .collect(Collectors.toList());
-				
-				if (nonExistingTags.size() > 0) {
-					post = new Post(postBody, timeCreated, nonExistingTags); // create post with all non existing tags first
+				List<Tag> newTags = new ArrayList<>();
+				List<Tag> existingTags = new ArrayList<>();
+
+				tagExistsMap.forEach((tag, num) -> { // filter all new tags
+					if (num.equals(0)) {
+						newTags.add(tag);
+					} else {
+						existingTags.add(tag);
+					}
+				});
+			
+				if (newTags.size() > 0) {
+					post = new Post(postBody, timeCreated, newTags); // create post with all non existing tags first
 				} else {
 					post = new Post(postBody, timeCreated);
 				}
 				
-				// in-place removal of all non-existent tags, leaving existing ones
-				boolean changed = tagExists.removeAll(nonExistingTags);
-				if (changed || tags.size() > 0) {
-					for (Tag t : tagExists) {
+				if (existingTags.size() > 0) {
+					for (Tag t : existingTags) {
 						post.addTag(t);
 					}
 				}
@@ -86,19 +90,24 @@ public abstract class FeedService {
 	}
 	
 	/**
-	 * Returns an int[] that indicates if each element in tags already exists in the DB.
+	 * Returns a HashMap that indicates if each element in tags already exists in the DB.
 	 * @param tags
-	 * @return int[] where 1 if tag already exists, 0 if tag does not exist.
+	 * @return HashMap<Tag,Integer> where value takes 1 if tag already exists, 0 if tag is new.
 	 */
-	private List<Tag> processTagExistence(List<Tag> tags) {
+	private HashMap<Tag, Integer> processTagExistence(List<Tag> tags) {
 		
-		List<Tag> tagExistenceArray = new ArrayList<>();
+		HashMap<Tag, Integer> tagExistenceMap = new HashMap<>();
 		
-		for (int i = 0; i < tags.size(); i++) {
-			Tag t = tagDAO.findByTagName(tags.get(i).getTagName());
-			tagExistenceArray.add(t != null ? t : null);
+		for (Tag tag : tags) {
+			
+			Tag t = tagDAO.findByTagName(tag.getTagName());
+			if (t != null) {
+				tagExistenceMap.put(t, 1);
+			} else {
+				tagExistenceMap.put(tag, 0);
+			}
 		}
-		return tagExistenceArray;
+		return tagExistenceMap;
 	}
 	
 	

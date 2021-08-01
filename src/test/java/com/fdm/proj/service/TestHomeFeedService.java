@@ -167,7 +167,7 @@ public class TestHomeFeedService {
 		
 		when(tagDAO.findByTagName(t1.getTagName())).thenReturn(t1);
 		when(tagDAO.findByTagName(t2.getTagName())).thenReturn(null);
-		when(tagDAO.findByTagName(t2.getTagName())).thenReturn(t3);
+		when(tagDAO.findByTagName(t3.getTagName())).thenReturn(t3);
 		
 		homeFeedService.userCreatePost(u1, mockPostBody, Instant.now(), listOfTags);
 		
@@ -179,7 +179,7 @@ public class TestHomeFeedService {
 		
 		assertTrue(postTags.contains(t1));
 		assertTrue(postTags.contains(t3));
-		assertTrue(postTags.get(0).getTagName().equals(t2.getTagName()));
+		assertTrue(postTags.get(2).getTagName().equals(t2.getTagName()));
 		assertTrue(existingTag.getPosts().contains(createdPost));
 		assertTrue(existingTag2.getPosts().contains(createdPost));
 		assertTrue(nonExistentTag.getPosts().contains(createdPost));
