@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -85,9 +87,10 @@ public abstract class FeedController {
 		
 		List<Tag> tags = new ArrayList<>();
 		if (tagNames != null && tagNames != "") {
-			String[] tagNameArray = tagNames.split(",");
+			List<String> tagNameList = Arrays.stream(tagNames.split(",")).map(String::trim).collect(Collectors.toList());
+			
 
-			for (String name : Arrays.asList(tagNameArray)) {
+			for (String name : tagNameList) {
 				Tag tag = new Tag(name);
 				tags.add(tag);
 			}

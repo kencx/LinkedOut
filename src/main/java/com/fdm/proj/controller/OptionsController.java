@@ -12,17 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fdm.proj.model.User;
 import com.fdm.proj.service.OptionsService;
+import com.fdm.proj.service.UserService;
 
 @Controller
 public class OptionsController {
 
 	private static final Logger INFO = LogManager.getLogger(LoginController.class);
 	
+	private UserService userService;
 	private OptionsService optionsService;
 	private HttpServletRequest req;
 	
 	@Autowired
-	public OptionsController(OptionsService optionsService, HttpServletRequest req) {
+	public OptionsController(OptionsService optionsService, UserService userService, HttpServletRequest req) {
+		this.userService = userService;
 		this.optionsService = optionsService;
 		this.req = req;
 	}
@@ -33,6 +36,13 @@ public class OptionsController {
 		return "options";
 	}
 	
+//	@RequestMapping(value="/options", method=RequestMethod.GET)
+//	public String deleteAccount() {
+//		
+//		userService.deleteUser(optionsService.getUser().getUserId());
+//		INFO.info("User deleted. Logging out.");
+//		return "logout";
+//	}
 	
 	@RequestMapping(value="/editparticulars", method=RequestMethod.GET)
 	public String goToUpdateParticularsPage() {
@@ -81,6 +91,5 @@ public class OptionsController {
 		Integer userId = (Integer) req.getSession().getAttribute("currentUserId");
 		User user = optionsService.returnUser(userId);
 		optionsService.setUser(user);
-		INFO.info("User set" + user.getUserId());
 	}
 }

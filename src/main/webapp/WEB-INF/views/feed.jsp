@@ -28,10 +28,6 @@
 				
 		<!-- post status text box block -->
 		<div class="container welcome-container">
-
-			<!-- <div class="color-margin" id="text-box">	
-				<p></p>
-			</div>  -->	
 			
 			<div>
 				<div class="welcome-header">
@@ -135,7 +131,7 @@
 								<div class="comment-header">
 									<img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Avatar" class="avatar" id="comment"/>
 									<h5>${comment.user.firstname} ${comment.user.lastname}</h5>
-									<p id="profile">${post.user.occupation} | ${post.user.location}</p>
+									<p id="profile"><c:if test="${comment.user.occupation != null}">${comment.user.occupation}</c:if> <c:if test="${comment.user.location != null}">| ${comment.user.location}</c:if></p>
 									<button id="option-menu">...</button>
 									<p class="time">${comment.getTimePassed()}</p>
 								</div>

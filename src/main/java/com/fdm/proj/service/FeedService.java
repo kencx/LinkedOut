@@ -1,7 +1,11 @@
 package com.fdm.proj.service;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 
@@ -35,6 +39,7 @@ public abstract class FeedService {
 	
 	/**
 	 * This method has the given user create a post with optional tags. If any of the given tags already exist, the post is mapped to the tag. Otherwise, a post is created normally.
+	 * It handles collections of tags with that are: 1. all new, 2. all exist, 3. a combination of both.
 	 * @param user Author of post
 	 * @param postBody Content of post
 	 * @param timeCreated Time of creation
@@ -45,16 +50,30 @@ public abstract class FeedService {
 		
 		if (tags != null) {
 			
-			// check if any tags exist already
-			for (Tag tag : tags) {
+			List<Tag> tagExists = processTagExistence(tags);
+
+			if (tagExists.stream().allMatch(i -> i == null)) { // all tags do not exist
+				post = new Post(postBody, timeCreated, tags); 
+			}
+			
+			else {
+				List<Tag> nonExistingTags = IntStream.range(0, tags.size())
+													 .filter(i -> tagExists.get(i) == null)
+													 .mapToObj(i -> tags.get(i))
+													 .collect(Collectors.toList());
 				
-				Tag existingTag = tagDAO.findByTagName(tag.getTagName());
-				
-				if (existingTag != null) {
-					post = new Post(postBody, timeCreated);
-					post.addTag(existingTag);
+				if (nonExistingTags.size() > 0) {
+					post = new Post(postBody, timeCreated, nonExistingTags); // create post with all non existing tags first
 				} else {
-					post = new Post(postBody, timeCreated, tags);
+					post = new Post(postBody, timeCreated);
+				}
+				
+				// in-place removal of all non-existent tags, leaving existing ones
+				boolean changed = tagExists.removeAll(nonExistingTags);
+				if (changed || tags.size() > 0) {
+					for (Tag t : tagExists) {
+						post.addTag(t);
+					}
 				}
 			}
 			
@@ -65,6 +84,23 @@ public abstract class FeedService {
 		user.createPost(post);
 		userDAO.updateUser(user.getUserId(), user);
 	}
+	
+	/**
+	 * Returns an int[] that indicates if each element in tags already exists in the DB.
+	 * @param tags
+	 * @return int[] where 1 if tag already exists, 0 if tag does not exist.
+	 */
+	private List<Tag> processTagExistence(List<Tag> tags) {
+		
+		List<Tag> tagExistenceArray = new ArrayList<>();
+		
+		for (int i = 0; i < tags.size(); i++) {
+			Tag t = tagDAO.findByTagName(tags.get(i).getTagName());
+			tagExistenceArray.add(t != null ? t : null);
+		}
+		return tagExistenceArray;
+	}
+	
 	
 	public void userCreateComment(User user, Post post, String commentBody, Instant timeCreated) {
 		Comment comment = new Comment(commentBody, timeCreated);

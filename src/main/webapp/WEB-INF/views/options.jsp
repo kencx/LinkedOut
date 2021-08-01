@@ -36,6 +36,7 @@
                 <h1>Options</h1>
                 <a href="editparticulars">Edit Profile</a><br>
                 <a href="changepassword">Change Password</a>
+                <a href="options">Delete Account</a>
             <p></p>
 		</div>
 	</div>

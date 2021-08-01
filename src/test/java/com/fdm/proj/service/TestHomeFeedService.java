@@ -127,6 +127,65 @@ public class TestHomeFeedService {
 	}
 	
 	@Test
+	public void createPostWithExistingAndNonExistentTagTest() {
+		
+		Tag t2 = new Tag("testTag2");
+		List<Tag> listOfTags = new ArrayList<>();
+		listOfTags.add(t1);
+		listOfTags.add(t2);
+		assertTrue(t1.getPosts().size() == 0);
+		assertTrue(t2.getPosts().size() == 0);
+		
+		when(tagDAO.findByTagName(t1.getTagName())).thenReturn(t1);
+		when(tagDAO.findByTagName(t2.getTagName())).thenReturn(null);
+		
+		homeFeedService.userCreatePost(u1, mockPostBody, Instant.now(), listOfTags);
+		
+		Post createdPost = u1.getCreatedPosts().get(0);
+		List<Tag> postTags = new ArrayList<>(createdPost.getTags());
+		Tag existingTag = postTags.get(1);
+		Tag nonExistentTag = postTags.get(0);
+		
+		assertTrue(postTags.contains(t1));
+		assertTrue(postTags.get(0).getTagName().equals(t2.getTagName()));
+		assertTrue(existingTag.getPosts().contains(createdPost));
+		assertTrue(nonExistentTag.getPosts().contains(createdPost));
+	}
+	
+	@Test
+	public void createPostWith2ExistingAnd1NonExistentTagTest() {
+		
+		Tag t2 = new Tag("testTag2");
+		Tag t3 = new Tag("testTag3");
+		List<Tag> listOfTags = new ArrayList<>();
+		listOfTags.add(t1);
+		listOfTags.add(t2);
+		listOfTags.add(t3);
+		assertTrue(t1.getPosts().size() == 0);
+		assertTrue(t2.getPosts().size() == 0);
+		assertTrue(t3.getPosts().size() == 0);
+		
+		when(tagDAO.findByTagName(t1.getTagName())).thenReturn(t1);
+		when(tagDAO.findByTagName(t2.getTagName())).thenReturn(null);
+		when(tagDAO.findByTagName(t2.getTagName())).thenReturn(t3);
+		
+		homeFeedService.userCreatePost(u1, mockPostBody, Instant.now(), listOfTags);
+		
+		Post createdPost = u1.getCreatedPosts().get(0);
+		List<Tag> postTags = new ArrayList<>(createdPost.getTags());
+		Tag existingTag = postTags.get(1);
+		Tag existingTag2 = postTags.get(2);
+		Tag nonExistentTag = postTags.get(0);
+		
+		assertTrue(postTags.contains(t1));
+		assertTrue(postTags.contains(t3));
+		assertTrue(postTags.get(0).getTagName().equals(t2.getTagName()));
+		assertTrue(existingTag.getPosts().contains(createdPost));
+		assertTrue(existingTag2.getPosts().contains(createdPost));
+		assertTrue(nonExistentTag.getPosts().contains(createdPost));
+	}
+	
+	@Test
 	public void createCommentTest() {
 		
 		String mockCommentBody = "test";

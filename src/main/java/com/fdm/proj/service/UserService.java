@@ -20,4 +20,7 @@ public class UserService {
 		return userDAO.findByUsername(username);
 	}
 	
+	public void deleteUser(int userId) {
+		userDAO.delete(userId);
+	}
 }
