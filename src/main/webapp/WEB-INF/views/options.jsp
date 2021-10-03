@@ -35,7 +35,7 @@
 		<div class="container options-container">
                 <h1>Options</h1>
                 <a href="editparticulars">Edit Profile</a><br>
-                <a href="changepassword">Change Password</a>
+                <a href="changepassword">Change Password</a><br>
                 <a href="options">Delete Account</a>
             <p></p>
 		</div>
